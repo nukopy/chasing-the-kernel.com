@@ -31,6 +31,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
     "@cloudflare/vite-plugin": "^1.0.12",
+    "@content-collections/cli": "^0.1.7",
     "@content-collections/core": "^0.11.1",
     "@content-collections/markdown": "^0.1.4",
     "@content-collections/mdx": "^0.2.2",
