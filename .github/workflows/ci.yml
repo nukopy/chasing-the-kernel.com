@@ -55,6 +55,8 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Build to generate type definitions
+        run: pnpm run build
       - name: Run typecheck
         run: pnpm run typecheck
 
