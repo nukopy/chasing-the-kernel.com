@@ -11,7 +11,10 @@
 .wrangler
 .dev.vars*
 
+# Content Collections
+.content-collections
 
+# Environment variables
 !.dev.vars.example
 .env*
 !.env.example

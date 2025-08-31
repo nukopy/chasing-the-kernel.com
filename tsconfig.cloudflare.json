@@ -6,7 +6,8 @@
     "app/**/.server/**/*",
     "app/**/.client/**/*",
     "workers/**/*",
-    "worker-configuration.d.ts"
+    "worker-configuration.d.ts",
+    ".content-collections/**/*"
   ],
   "compilerOptions": {
     "composite": true,
@@ -20,7 +21,9 @@
     "baseUrl": ".",
     "rootDirs": [".", "./.react-router/types"],
     "paths": {
-      "~/*": ["./app/*"]
+      "content-collections": [
+        "./app/lib/content-collections/.content-collections/generated"
+      ]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true
