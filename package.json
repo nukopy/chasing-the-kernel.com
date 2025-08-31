@@ -18,7 +18,9 @@
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "check": "biome check --write",
-    "ci": "biome ci"
+    "ci": "biome ci",
+    "----- test -----": "",
+    "test": "echo \"No tests yet\""
   },
   "dependencies": {
     "isbot": "^5.1.27",
