@@ -1,5 +1,13 @@
 # Chasing the Kernel
 
+[![GitHub Actions workflow badge - CI][github-actions-badge-ci]][github-actions-url-ci]
+[![GitHub Actions workflow badge - Deploy][github-actions-badge-deploy]][github-actions-url-deploy]
+
+[github-actions-badge-ci]: https://github.com/nukopy/chasing-the-kernel.com/actions/workflows/ci.yml/badge.svg?branch=main
+[github-actions-url-ci]: https://github.com/nukopy/chasing-the-kernel.com/actions/workflows/ci.yml?query=branch:main
+[github-actions-badge-deploy]: https://github.com/nukopy/chasing-the-kernel.com/actions/workflows/deploy.yml/badge.svg?branch=main
+[github-actions-url-deploy]: https://github.com/nukopy/chasing-the-kernel.com/actions/workflows/deploy.yml?query=branch:main
+
 
 I'm chasing the kernel.
 
