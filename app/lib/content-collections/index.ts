@@ -8,7 +8,7 @@ const FrontmatterSchema = z.object({
 });
 
 // ref: https://www.content-collections.dev/docs/configuration
-const posts = defineCollection({
+const contents = defineCollection({
   name: "contents",
   directory: "../../../app/contents",
   include: "**/*.md",
@@ -23,5 +23,5 @@ const posts = defineCollection({
 });
 
 export default defineConfig({
-  collections: [posts],
+  collections: [contents],
 });
