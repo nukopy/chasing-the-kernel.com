@@ -3,13 +3,22 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"----- build, deploy -----": "",
 		"build": "react-router build",
-		"cf-typegen": "wrangler types",
 		"deploy": "pnpm run build && wrangler deploy",
 		"dev": "react-router dev",
-		"postinstall": "npm run cf-typegen",
+		"postinstall": "pnpm run typegen",
 		"preview": "pnpm run build && vite preview",
-		"typecheck": "npm run cf-typegen && react-router typegen && tsc -b"
+		"----- type generation, check -----": "",
+		"cf-typegen": "wrangler types",
+		"react-router-typegen": "react-router typegen",
+		"typegen": "pnpm run cf-typegen && pnpm run react-router-typegen",
+		"typecheck": "pnpm run typegen && tsc -b",
+		"----- format, lint -----": "",
+		"format": "biome format --write .",
+		"lint": "biome lint --write .",
+		"check": "biome check --write",
+		"ci": "biome ci"
 	},
 	"dependencies": {
 		"isbot": "^5.1.27",
