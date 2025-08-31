@@ -25,20 +25,20 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
   const { tag, posts } = loaderData;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">#{tag}</h1>
-        <p className="text-gray-600">{posts.length} 件の投稿</p>
+        <p className="text-black">{posts.length} 件の投稿</p>
       </div>
 
       <div className="space-y-6">
         {posts.map((post) => (
           <article key={post._meta.path} className="border-b pb-6">
             <a href={`/contents/${post._meta.path}`} className="block group">
-              <h2 className="text-2xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
+              <h2 className="text-2xl font-bold mb-2 group-hover:text-gray-700 transition-colors">
                 {post.title}
               </h2>
-              <p className="text-gray-600 mb-3">{post.summary}</p>
+              <p className="text-black mb-3">{post.summary}</p>
 
               {/* タグ表示 */}
               <div className="flex flex-wrap gap-2">
@@ -47,8 +47,8 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
                     key={postTag}
                     className={`rounded-full px-2 py-1 text-sm ${
                       postTag === tag
-                        ? "bg-blue-100 text-blue-800 font-medium"
-                        : "bg-gray-200 text-gray-700"
+                        ? "bg-gray-300 text-black font-medium"
+                        : "bg-gray-200 text-black"
                     }`}
                   >
                     #{postTag}
@@ -62,12 +62,12 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
 
       {/* ナビゲーションリンク */}
       <div className="mt-8 pt-8 border-t flex gap-4">
-        <a href="/tags" className="text-blue-600 hover:text-blue-800 underline">
+        <a href="/tags" className="text-black hover:text-gray-700 underline">
           ← タグ一覧に戻る
         </a>
         <a
           href="/contents"
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-black hover:text-gray-700 underline"
         >
           投稿一覧を見る
         </a>
