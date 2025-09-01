@@ -1,32 +1,102 @@
+"use client";
+
 import { MDXContent } from "@content-collections/mdx/react";
 import { allContents } from "content-collections";
-import { data } from "react-router";
-import type { Route } from "./+types/contents.$slug";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
-export function loader({ params }: Route.LoaderArgs) {
-  const { slug } = params;
+type ClientOnlyProps = {
+  children: React.ReactNode;
+};
 
-  // slug に基づいて該当する投稿を検索
-  const content = allContents.find((p) => p._meta.path === slug);
+export function ClientOnly({ children }: ClientOnlyProps) {
+  const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
 
-  if (!content) {
-    throw data("Content not found", { status: 404 });
-  }
+  // SSR と初回 CSR で同じ要素（null）がレンダリングされるため、hydration 不一致 error が発生しない
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return { content };
+  // 初回描画は opacity-0、次のフレームで opacity-100 → フェードイン
+  useEffect(() => {
+    if (!mounted) return;
+    const id = requestAnimationFrame(() => setShow(true));
+    return () => cancelAnimationFrame(id);
+  }, [mounted]);
+
+  if (!mounted) return null;
+
+  return (
+    <div
+      className={[
+        "transition-opacity duration-1000", // フェード
+        "motion-reduce:transition-none", // アクセシビリティ
+        show ? "opacity-100" : "opacity-0",
+      ].join(" ")}
+      style={{ minHeight: "40vh" }}
+    >
+      {children}
+    </div>
+  );
 }
 
-export default function PostDetail({ loaderData }: Route.ComponentProps) {
-  const { content } = loaderData;
-  console.log(content);
+type ContentProps = {
+  content: (typeof allContents)[number];
+};
 
-  if (typeof window === "undefined") {
-    return null;
+const Content = ({ content }: ContentProps) => {
+  const isContentMdx = content._meta.extension === "mdx";
+  const body = isContentMdx ? (
+    <MDXContent code={content.mdx} />
+  ) : (
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: We can ignore this because `content.html` is safe content created by us
+    <div dangerouslySetInnerHTML={{ __html: content.html }} />
+  );
+
+  return (
+    <ClientOnly>
+      {/* コンテンツ */}
+      {body}
+
+      {/* 戻るリンク */}
+      <div className="divider"></div>
+      <div className="flex justify-between items-center">
+        <a href="/contents" className="btn btn-outline btn-primary">
+          ← 投稿一覧に戻る
+        </a>
+      </div>
+    </ClientOnly>
+  );
+};
+
+export default function PostDetail() {
+  // slug に一致するコンテンツを取得
+  const { slug } = useParams();
+  const content = allContents.find((p) => p._meta.path === slug);
+  if (!content) {
+    return <div>Content not found</div>;
   }
 
   return (
-    <article className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4">{content.title}</h1>
+    <article className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="breadcrumbs text-sm mb-6">
+        <ul>
+          <li>
+            <a href="/" className="link link-hover">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/contents" className="link link-hover">
+              Contents
+            </a>
+          </li>
+          <li>{content.title}</li>
+        </ul>
+      </div>
+
+      <h1 className="text-4xl font-bold mb-6">{content.title}</h1>
 
       {/* タグ表示 */}
       {content.tags && content.tags.length > 0 && (
@@ -35,7 +105,7 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
             <a
               key={tag}
               href={`/tags/${encodeURIComponent(tag)}`}
-              className="rounded-full bg-gray-200 text-black hover:bg-gray-300 px-3 py-1 text-sm transition-colors"
+              className="badge badge-primary badge-lg"
             >
               #{tag}
             </a>
@@ -44,24 +114,29 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
       )}
 
       {/* サマリー */}
-      <p className="text-lg text-black mb-8">{content.summary}</p>
+      <div className="alert alert-info mb-8">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          className="stroke-current shrink-0 w-6 h-6"
+          role="img"
+          aria-label="情報"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <span>{content.summary}</span>
+      </div>
 
       {/* コンテンツ */}
-      {/* SSR ではない場合に MDXContent をレンダリング */}
-      {content._meta.extension === "mdx" && <MDXContent code={content.mdx} />}
-      {content._meta.extension === "md" && (
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: We can ignore this because `content.html` is safe content created by us
-        <div dangerouslySetInnerHTML={{ __html: content.html }} />
-      )}
-
-      {/* 戻るリンク */}
-      <div className="mt-8 pt-8 border-t">
-        <a
-          href="/contents"
-          className="text-black hover:text-gray-700 underline"
-        >
-          ← 投稿一覧に戻る
-        </a>
+      <div className="prose prose-lg max-w-none">
+        {/* <Content isClient={isClient} content={content} /> */}
+        <Content content={content} />
       </div>
     </article>
   );

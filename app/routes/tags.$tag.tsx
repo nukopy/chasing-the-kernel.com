@@ -25,50 +25,67 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
   const { tag, posts } = loaderData;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">#{tag}</h1>
-        <p className="text-black">{posts.length} 件の投稿</p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="breadcrumbs text-sm mb-6">
+        <ul>
+          <li>
+            <a href="/" className="link link-hover">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/tags" className="link link-hover">
+              Tags
+            </a>
+          </li>
+          <li>#{tag}</li>
+        </ul>
       </div>
 
-      <div className="space-y-6">
+      <div className="hero bg-primary text-primary-content rounded-lg mb-8">
+        <div className="hero-content text-center py-8">
+          <div>
+            <h1 className="text-5xl font-bold">#{tag}</h1>
+            <p className="text-xl mt-2">{posts.length} 件の投稿</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-6">
         {posts.map((post) => (
-          <article key={post._meta.path} className="border-b pb-6">
-            <a href={`/contents/${post._meta.path}`} className="block group">
-              <h2 className="text-2xl font-bold mb-2 group-hover:text-gray-700 transition-colors">
+          <article key={post._meta.path} className="card bg-base-100 shadow-xl">
+            <div className="card-body">
+              <a
+                href={`/contents/${post._meta.path}`}
+                className="card-title link link-hover text-2xl"
+              >
                 {post.title}
-              </h2>
-              <p className="text-black mb-3">{post.summary}</p>
+              </a>
+              <p className="text-base-content/70">{post.summary}</p>
 
               {/* タグ表示 */}
-              <div className="flex flex-wrap gap-2">
+              <div className="card-actions justify-start mt-4">
                 {post.tags?.map((postTag) => (
                   <span
                     key={postTag}
-                    className={`rounded-full px-2 py-1 text-sm ${
-                      postTag === tag
-                        ? "bg-gray-300 text-black font-medium"
-                        : "bg-gray-200 text-black"
-                    }`}
+                    className={`badge ${postTag === tag ? "badge-primary" : "badge-outline"}`}
                   >
                     #{postTag}
                   </span>
                 ))}
               </div>
-            </a>
+            </div>
           </article>
         ))}
       </div>
 
       {/* ナビゲーションリンク */}
-      <div className="mt-8 pt-8 border-t flex gap-4">
-        <a href="/tags" className="text-black hover:text-gray-700 underline">
+      <div className="divider"></div>
+      <div className="flex gap-4 justify-center">
+        <a href="/tags" className="btn btn-outline btn-primary">
           ← タグ一覧に戻る
         </a>
-        <a
-          href="/contents"
-          className="text-black hover:text-gray-700 underline"
-        >
+        <a href="/contents" className="btn btn-outline btn-secondary">
           投稿一覧を見る
         </a>
       </div>

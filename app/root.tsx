@@ -6,9 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Header } from "./components/layout/Header";
+import { ThemeScript } from "./components/layout/ThemeScript";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,12 +26,13 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <ThemeScript />
       </head>
       <body>
         {children}
@@ -44,54 +46,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      <header className="bg-gray-100 border-b border-gray-300 sticky top-0 z-50">
-        <nav className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <a
-                href="/"
-                className="text-xl font-bold text-black hover:text-gray-700 transition-colors"
-              >
-                Chasing the Kernel
-              </a>
-              <div className="hidden md:flex space-x-6">
-                <a
-                  href="/contents"
-                  className="text-black hover:text-gray-700 transition-colors"
-                >
-                  Contents
-                </a>
-                <a
-                  href="/tags"
-                  className="text-black hover:text-gray-700 transition-colors"
-                >
-                  Tags
-                </a>
-              </div>
-            </div>
-            {/* モバイルメニューボタン（将来的に実装可能） */}
-            <div className="md:hidden">
-              <button className="text-black hover:text-gray-700" type="button">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <title>Menu</title>
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </nav>
-      </header>
-      <main className="min-h-screen bg-white">
+      <Header />
+      <main className="min-h-screen bg-base-200">
         <Outlet />
       </main>
     </>
@@ -115,14 +71,23 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+    <main className="hero min-h-screen bg-base-200">
+      <div className="hero-content text-center">
+        <div className="max-w-md">
+          <h1 className="text-5xl font-bold text-error">{message}</h1>
+          <p className="py-6 text-base-content">{details}</p>
+          {stack && (
+            <div className="mockup-code">
+              <pre>
+                <code>{stack}</code>
+              </pre>
+            </div>
+          )}
+          <a href="/" className="btn btn-primary">
+            ホームに戻る
+          </a>
+        </div>
+      </div>
     </main>
   );
 }
