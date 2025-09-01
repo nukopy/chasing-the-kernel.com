@@ -4,10 +4,10 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/deploy.yml"
       - "**"
       - "!README.md"
       - "!.gitignore"
+      - "!CLAUDE.md"
 
 jobs:
   deploy:
