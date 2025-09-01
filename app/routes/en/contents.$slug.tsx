@@ -3,7 +3,7 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getContentBySlugAndLanguage } from "../lib/content";
+import { getContentBySlugAndLanguage } from "../../lib/content";
 import { allContents } from "content-collections";
 
 type ClientOnlyProps = {
@@ -14,12 +14,10 @@ export function ClientOnly({ children }: ClientOnlyProps) {
   const [mounted, setMounted] = useState(false);
   const [show, setShow] = useState(false);
 
-  // SSR と初回 CSR で同じ要素（null）がレンダリングされるため、hydration 不一致 error が発生しない
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // 初回描画は opacity-0、次のフレームで opacity-100 → フェードイン
   useEffect(() => {
     if (!mounted) return;
     const id = requestAnimationFrame(() => setShow(true));
@@ -31,8 +29,8 @@ export function ClientOnly({ children }: ClientOnlyProps) {
   return (
     <div
       className={[
-        "transition-opacity duration-1000", // フェード
-        "motion-reduce:transition-none", // アクセシビリティ
+        "transition-opacity duration-1000",
+        "motion-reduce:transition-none",
         show ? "opacity-100" : "opacity-0",
       ].join(" ")}
       style={{ minHeight: "40vh" }}
@@ -57,23 +55,22 @@ const Content = ({ content }: ContentProps) => {
 
   return (
     <ClientOnly>
-      {/* コンテンツ */}
       {body}
 
-      {/* 戻るリンク */}
       <div className="divider"></div>
       <div className="flex justify-between items-center">
-        <a href="/contents" className="btn btn-outline btn-primary">
-          ← 投稿一覧に戻る
+        <a href="/en/contents" className="btn btn-outline btn-primary">
+          ← Back to Contents
         </a>
       </div>
     </ClientOnly>
   );
 };
 
-export default function PostDetail() {
+export default function EnglishPostDetail() {
   const { slug } = useParams();
-  const content = getContentBySlugAndLanguage(slug!, "ja");
+  const content = getContentBySlugAndLanguage(slug!, "en");
+  
   if (!content) {
     return <div>Content not found</div>;
   }
@@ -83,12 +80,12 @@ export default function PostDetail() {
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
-            <a href="/" className="link link-hover">
+            <a href="/en" className="link link-hover">
               Home
             </a>
           </li>
           <li>
-            <a href="/contents" className="link link-hover">
+            <a href="/en/contents" className="link link-hover">
               Contents
             </a>
           </li>
@@ -98,13 +95,12 @@ export default function PostDetail() {
 
       <h1 className="text-4xl font-bold mb-6">{content.title}</h1>
 
-      {/* タグ表示 */}
       {content.tags && content.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
           {content.tags.map((tag) => (
             <a
               key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
+              href={`/en/tags/${encodeURIComponent(tag)}`}
               className="badge badge-primary badge-lg"
             >
               #{tag}
@@ -113,7 +109,6 @@ export default function PostDetail() {
         </div>
       )}
 
-      {/* サマリー */}
       <div className="alert alert-info mb-8">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +116,7 @@ export default function PostDetail() {
           viewBox="0 0 24 24"
           className="stroke-current shrink-0 w-6 h-6"
           role="img"
-          aria-label="情報"
+          aria-label="Information"
         >
           <path
             strokeLinecap="round"
@@ -133,9 +128,7 @@ export default function PostDetail() {
         <span>{content.summary}</span>
       </div>
 
-      {/* コンテンツ */}
       <div className="prose prose-lg max-w-none">
-        {/* <Content isClient={isClient} content={content} /> */}
         <Content content={content} />
       </div>
     </article>

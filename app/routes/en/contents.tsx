@@ -1,5 +1,5 @@
-import { getContentsByLanguage } from "../lib/content";
-import type { Route } from "./+types/contents";
+import { getContentsByLanguage } from "../../lib/content";
+import type { Route } from "../+types/contents";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -13,11 +13,11 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export function loader(_: Route.LoaderArgs) {
-  const contents = getContentsByLanguage("ja");
+  const contents = getContentsByLanguage("en");
   return { contents };
 }
 
-export default function Contents({ loaderData }: Route.ComponentProps) {
+export default function EnglishContents({ loaderData }: Route.ComponentProps) {
   const { contents } = loaderData;
 
   return (
@@ -28,7 +28,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
           <div key={content._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/contents/${content._meta.path.split('/')[1]}`}
+                href={`/en/contents/${content._meta.path.split('/')[1]}`}
                 className="card-title link link-hover text-2xl"
               >
                 {content.title}
@@ -38,7 +38,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
                 {content.tags?.map((tag) => (
                   <a
                     key={tag}
-                    href={`/tags/${encodeURIComponent(tag)}`}
+                    href={`/en/tags/${encodeURIComponent(tag)}`}
                     className="badge badge-outline badge-primary"
                     onClick={(e) => e.stopPropagation()}
                   >

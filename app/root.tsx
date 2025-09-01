@@ -5,11 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/layout/Header";
 import { ThemeScript } from "./components/layout/ThemeScript";
+import { I18nProvider } from "./components/I18nProvider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,13 +46,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const location = useLocation();
+  
+  // Detect language from URL path
+  const language = location.pathname.startsWith("/en") ? "en" : "ja";
+  
   return (
-    <>
+    <I18nProvider language={language}>
       <Header />
       <main className="min-h-screen bg-base-200">
         <Outlet />
       </main>
-    </>
+    </I18nProvider>
   );
 }
 

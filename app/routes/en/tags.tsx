@@ -1,5 +1,5 @@
-import { getContentsByLanguage } from "../lib/content";
-import type { Route } from "./+types/tags";
+import { getContentsByLanguage } from "../../lib/content";
+import type { Route } from "../+types/tags";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -9,7 +9,7 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export function loader(_: Route.LoaderArgs) {
-  const contents = getContentsByLanguage("ja");
+  const contents = getContentsByLanguage("en");
   const tagCounts = new Map<string, number>();
 
   contents.forEach((post) => {
@@ -20,7 +20,6 @@ export function loader(_: Route.LoaderArgs) {
     }
   });
 
-  // タグを投稿数でソート（多い順）
   const sortedTags = Array.from(tagCounts.entries())
     .sort(([, a], [, b]) => b - a)
     .map(([tag, count]) => ({ tag, count }));
@@ -28,22 +27,21 @@ export function loader(_: Route.LoaderArgs) {
   return { tags: sortedTags };
 }
 
-export default function Tags({ loaderData }: Route.ComponentProps) {
+export default function EnglishTags({ loaderData }: Route.ComponentProps) {
   const { tags } = loaderData;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* ヘッダー */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-base-content mb-2">Tags</h1>
-        <p className="text-base-content/70">記事をタグで探す</p>
+        <p className="text-base-content/70">Browse articles by tags</p>
       </div>
 
       {tags.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">🏷️</div>
           <p className="text-lg text-base-content/70">
-            タグが見つかりませんでした。
+            No tags found.
           </p>
         </div>
       ) : (
@@ -51,7 +49,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
           {tags.map(({ tag, count }) => (
             <a
               key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
+              href={`/en/tags/${encodeURIComponent(tag)}`}
               className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border border-base-300"
             >
               <div className="card-body p-4">
@@ -60,12 +58,12 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
                     #{tag}
                   </div>
                   <div className="text-sm text-base-content/60">
-                    {count} 投稿
+                    {count} post{count !== 1 ? 's' : ''}
                   </div>
                 </div>
                 <div className="mt-2">
                   <div className="text-xs text-base-content/50">
-                    該当記事一覧を見る
+                    View related articles
                   </div>
                 </div>
               </div>
@@ -74,9 +72,8 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
         </div>
       )}
 
-      {/* 戻るリンク */}
       <div className="flex justify-center">
-        <a href="/contents" className="btn btn-outline btn-wide gap-2">
+        <a href="/en/contents" className="btn btn-outline btn-wide gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -92,7 +89,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
               d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
             />
           </svg>
-          投稿一覧に戻る
+          Back to Contents
         </a>
       </div>
     </div>
