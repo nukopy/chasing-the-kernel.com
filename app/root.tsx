@@ -6,11 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/layout/Header";
-import { DEFAULT_THEME, THEME_LIST } from "./hooks/useTheme";
+import { ThemeScript } from "./components/layout/ThemeScript";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,49 +23,6 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
-
-function ThemeScript() {
-  return (
-    <script>
-      {`
-      (function() {
-        try {
-          // get saved theme from local storage
-          var DEFAULT_THEME = "${DEFAULT_THEME}";
-          var saved = localStorage.getItem("theme");
-          if (!saved) {
-            console.info(
-              "No saved theme found, setting default theme...: " + DEFAULT_THEME,
-            );
-            document.documentElement.setAttribute("data-theme", DEFAULT_THEME);
-            localStorage.setItem("theme", DEFAULT_THEME);
-            return;
-          }
-
-          // if the saved theme is not in the allowed themes, set the default theme
-          var allowedThemes = "${THEME_LIST.map((t) => t.name).join(",")}";
-          if (!allowedThemes.includes(saved)) {
-            console.info(
-              "Saved theme '" + saved + "' is not valid, setting default theme...: " + DEFAULT_THEME,
-            );
-            document.documentElement.setAttribute("data-theme", DEFAULT_THEME);
-            localStorage.setItem("theme", DEFAULT_THEME);
-            return;
-          }
-
-          // if the saved theme is valid, set the theme
-          console.info("Saved theme '" + saved + "' is valid, setting theme...");
-          document.documentElement.setAttribute("data-theme", saved);
-          localStorage.setItem("theme", saved);
-        } catch (e) {
-          console.error("Error setting theme:", e);
-          document.documentElement.setAttribute("data-theme", "${DEFAULT_THEME}");
-        }
-      })();
-    `}
-    </script>
-  );
-}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
