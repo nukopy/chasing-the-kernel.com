@@ -1,27 +1,81 @@
+"use client";
+
 import { MDXContent } from "@content-collections/mdx/react";
 import { allContents } from "content-collections";
-import { data } from "react-router";
-import type { Route } from "./+types/contents.$slug";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
-export function loader({ params }: Route.LoaderArgs) {
-  const { slug } = params;
+type ClientOnlyProps = {
+  children: React.ReactNode;
+};
 
-  // slug に基づいて該当する投稿を検索
-  const content = allContents.find((p) => p._meta.path === slug);
+export function ClientOnly({ children }: ClientOnlyProps) {
+  const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
 
-  if (!content) {
-    throw data("Content not found", { status: 404 });
-  }
+  // SSR と初回 CSR で同じ要素（null）がレンダリングされるため、hydration 不一致 error が発生しない
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return { content };
+  // 初回描画は opacity-0、次のフレームで opacity-100 → フェードイン
+  useEffect(() => {
+    if (!mounted) return;
+    const id = requestAnimationFrame(() => setShow(true));
+    return () => cancelAnimationFrame(id);
+  }, [mounted]);
+
+  if (!mounted) return null;
+
+  return (
+    <div
+      className={[
+        "transition-opacity duration-1000", // フェード
+        "motion-reduce:transition-none", // アクセシビリティ
+        show ? "opacity-100" : "opacity-0",
+      ].join(" ")}
+      style={{ minHeight: "40vh" }}
+    >
+      {children}
+    </div>
+  );
 }
 
-export default function PostDetail({ loaderData }: Route.ComponentProps) {
-  const { content } = loaderData;
-  console.log(content);
+type ContentProps = {
+  content: (typeof allContents)[number];
+};
 
-  if (typeof window === "undefined") {
-    return null;
+const Content = ({ content }: ContentProps) => {
+  const isContentMdx = content._meta.extension === "mdx";
+  const body = isContentMdx ? (
+    <MDXContent code={content.mdx} />
+  ) : (
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: We can ignore this because `content.html` is safe content created by us
+    <div dangerouslySetInnerHTML={{ __html: content.html }} />
+  );
+
+  return (
+    <ClientOnly>
+      {/* コンテンツ */}
+      {body}
+
+      {/* 戻るリンク */}
+      <div className="divider"></div>
+      <div className="flex justify-between items-center">
+        <a href="/contents" className="btn btn-outline btn-primary">
+          ← 投稿一覧に戻る
+        </a>
+      </div>
+    </ClientOnly>
+  );
+};
+
+export default function PostDetail() {
+  // slug に一致するコンテンツを取得
+  const { slug } = useParams();
+  const content = allContents.find((p) => p._meta.path === slug);
+  if (!content) {
+    return <div>Content not found</div>;
   }
 
   return (
@@ -81,20 +135,8 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
 
       {/* コンテンツ */}
       <div className="prose prose-lg max-w-none">
-        {/* SSR ではない場合に MDXContent をレンダリング */}
-        {content._meta.extension === "mdx" && <MDXContent code={content.mdx} />}
-        {content._meta.extension === "md" && (
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: We can ignore this because `content.html` is safe content created by us
-          <div dangerouslySetInnerHTML={{ __html: content.html }} />
-        )}
-      </div>
-
-      {/* 戻るリンク */}
-      <div className="divider"></div>
-      <div className="flex justify-between items-center">
-        <a href="/contents" className="btn btn-outline btn-primary">
-          ← 投稿一覧に戻る
-        </a>
+        {/* <Content isClient={isClient} content={content} /> */}
+        <Content content={content} />
       </div>
     </article>
   );
