@@ -26,11 +26,12 @@ export function loader({ params, request }: Route.LoaderArgs) {
 
 export default function TagDetail({ loaderData }: Route.ComponentProps) {
   const { tag, posts, language } = loaderData;
-  
-  const getHomeUrl = () => language === "en" ? "/en" : "/";
-  const getTagsUrl = () => language === "en" ? "/en/tags" : "/tags";
-  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
-  const getContentUrl = (slug: string) => 
+
+  const getHomeUrl = () => (language === "en" ? "/en" : "/");
+  const getTagsUrl = () => (language === "en" ? "/en/tags" : "/tags");
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
+  const getContentUrl = (slug: string) =>
     language === "en" ? `/en/contents/${slug}` : `/contents/${slug}`;
 
   return (

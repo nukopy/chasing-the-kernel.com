@@ -3,7 +3,7 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import type { allContents } from "content-collections";
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { getContentBySlugAndLanguage } from "../lib/content";
 
 type ClientOnlyProps = {
@@ -74,19 +74,22 @@ const Content = ({ content }: ContentProps) => {
 export default function PostDetail() {
   const { slug } = useParams();
   const location = useLocation();
-  
+
   // Detect language from current URL path
   const language = location.pathname.startsWith("/en") ? "en" : "ja";
-  
+
   const content = getContentBySlugAndLanguage(slug ?? "", language);
   if (!content) {
     return <div>Content not found</div>;
   }
-  
-  const getHomeUrl = () => language === "en" ? "/en" : "/";
-  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
-  const getTagUrl = (tag: string) => 
-    language === "en" ? `/en/tags/${encodeURIComponent(tag)}` : `/tags/${encodeURIComponent(tag)}`;
+
+  const getHomeUrl = () => (language === "en" ? "/en" : "/");
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
+  const getTagUrl = (tag: string) =>
+    language === "en"
+      ? `/en/tags/${encodeURIComponent(tag)}`
+      : `/tags/${encodeURIComponent(tag)}`;
 
   return (
     <article className="container mx-auto px-4 py-8 max-w-4xl">

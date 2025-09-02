@@ -11,10 +11,11 @@ export function meta(_: Route.MetaArgs) {
 export default function Home() {
   const location = useLocation();
   const language = location.pathname.startsWith("/en") ? "en" : "ja";
-  
-  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
-  const getTagsUrl = () => language === "en" ? "/en/tags" : "/tags";
-  
+
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
+  const getTagsUrl = () => (language === "en" ? "/en/tags" : "/tags");
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

@@ -21,13 +21,15 @@ export function loader({ request }: Route.LoaderArgs) {
 
 export default function Contents({ loaderData }: Route.ComponentProps) {
   const { contents, language } = loaderData;
-  
+
   const getContentUrl = (slug: string) => {
     return language === "en" ? `/en/contents/${slug}` : `/contents/${slug}`;
   };
-  
+
   const getTagUrl = (tag: string) => {
-    return language === "en" ? `/en/tags/${encodeURIComponent(tag)}` : `/tags/${encodeURIComponent(tag)}`;
+    return language === "en"
+      ? `/en/tags/${encodeURIComponent(tag)}`
+      : `/tags/${encodeURIComponent(tag)}`;
   };
 
   return (

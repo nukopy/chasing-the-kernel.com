@@ -32,10 +32,13 @@ export function loader({ request }: Route.LoaderArgs) {
 
 export default function Tags({ loaderData }: Route.ComponentProps) {
   const { tags, language } = loaderData;
-  
-  const getTagUrl = (tag: string) => 
-    language === "en" ? `/en/tags/${encodeURIComponent(tag)}` : `/tags/${encodeURIComponent(tag)}`;
-  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
+
+  const getTagUrl = (tag: string) =>
+    language === "en"
+      ? `/en/tags/${encodeURIComponent(tag)}`
+      : `/tags/${encodeURIComponent(tag)}`;
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
