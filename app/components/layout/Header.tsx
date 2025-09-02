@@ -47,8 +47,8 @@ export function Header() {
         </ul>
       </div>
       <div className="navbar-end">
-        <LanguageSwitcher />
         <ThemeSwitcher />
+        <LanguageSwitcher />
       </div>
     </header>
   );
