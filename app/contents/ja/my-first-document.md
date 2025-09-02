@@ -1,9 +1,9 @@
 ---
-title: "My first document"
+title: "はじめてのドキュメント"
 tags: ["operating system", "unix"]
-summary: "This is my first document!"
+summary: "これははじめてのドキュメントです。"
 ---
 
-# My first document
+# はじめてのドキュメント
 
-howhow...
+ほうほう

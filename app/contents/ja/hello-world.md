@@ -1,11 +1,11 @@
 ---
-title: "Hello world"
+title: "こんにちは、世界"
 tags: ["hello", "world"]
-summary: "This is my first post!"
+summary: "これははじめてのポストです。"
 ---
 
-# Hello world
+# こんにちは、世界
 
-This is my first post!
-... rest of the content
-hoge
+これははじめてのポストです。
+
+ほげ
