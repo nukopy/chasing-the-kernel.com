@@ -44,9 +44,10 @@ export function ClientOnly({ children }: ClientOnlyProps) {
 
 type ContentProps = {
   content: (typeof allContents)[number];
+  getContentsUrl: () => string;
 };
 
-const Content = ({ content }: ContentProps) => {
+const Content = ({ content, getContentsUrl }: ContentProps) => {
   const isContentMdx = content._meta.extension === "mdx";
   const body = isContentMdx ? (
     <MDXContent code={content.mdx} />
@@ -149,7 +150,7 @@ export default function PostDetail() {
       {/* コンテンツ */}
       <div className="prose prose-lg max-w-none">
         {/* <Content isClient={isClient} content={content} /> */}
-        <Content content={content} />
+        <Content content={content} getContentsUrl={getContentsUrl} />
       </div>
     </article>
   );
