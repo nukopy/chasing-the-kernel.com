@@ -73,7 +73,7 @@ const Content = ({ content }: ContentProps) => {
 
 export default function PostDetail() {
   const { slug } = useParams();
-  const content = getContentBySlugAndLanguage(slug!, "ja");
+  const content = getContentBySlugAndLanguage(slug ?? "", "ja");
   if (!content) {
     return <div>Content not found</div>;
   }
