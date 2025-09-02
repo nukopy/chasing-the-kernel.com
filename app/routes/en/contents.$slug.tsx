@@ -1,10 +1,10 @@
 "use client";
 
 import { MDXContent } from "@content-collections/mdx/react";
+import type { allContents } from "content-collections";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getContentBySlugAndLanguage } from "../../lib/content";
-import { allContents } from "content-collections";
 
 type ClientOnlyProps = {
   children: React.ReactNode;
@@ -70,7 +70,7 @@ const Content = ({ content }: ContentProps) => {
 export default function EnglishPostDetail() {
   const { slug } = useParams();
   const content = getContentBySlugAndLanguage(slug!, "en");
-  
+
   if (!content) {
     return <div>Content not found</div>;
   }

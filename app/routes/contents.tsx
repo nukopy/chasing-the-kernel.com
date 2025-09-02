@@ -28,7 +28,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
           <div key={content._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/contents/${content._meta.path.split('/')[1]}`}
+                href={`/contents/${content._meta.path.split("/")[1]}`}
                 className="card-title link link-hover text-2xl"
               >
                 {content.title}

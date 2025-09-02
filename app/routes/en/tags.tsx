@@ -40,9 +40,7 @@ export default function EnglishTags({ loaderData }: Route.ComponentProps) {
       {tags.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">🏷️</div>
-          <p className="text-lg text-base-content/70">
-            No tags found.
-          </p>
+          <p className="text-lg text-base-content/70">No tags found.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
@@ -58,7 +56,7 @@ export default function EnglishTags({ loaderData }: Route.ComponentProps) {
                     #{tag}
                   </div>
                   <div className="text-sm text-base-content/60">
-                    {count} post{count !== 1 ? 's' : ''}
+                    {count} post{count !== 1 ? "s" : ""}
                   </div>
                 </div>
                 <div className="mt-2">

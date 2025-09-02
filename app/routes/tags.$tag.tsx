@@ -1,5 +1,5 @@
-import { getContentsByLanguage } from "../lib/content";
 import { data } from "react-router";
+import { getContentsByLanguage } from "../lib/content";
 import type { Route } from "./+types/tags.$tag";
 
 export function loader({ params }: Route.LoaderArgs) {
@@ -56,7 +56,7 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
           <article key={post._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/contents/${post._meta.path.split('/')[1]}`}
+                href={`/contents/${post._meta.path.split("/")[1]}`}
                 className="card-title link link-hover text-2xl"
               >
                 {post.title}

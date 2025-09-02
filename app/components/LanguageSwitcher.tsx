@@ -6,11 +6,11 @@ export function LanguageSwitcher() {
 
   const handleLanguageChange = (lng: string) => {
     i18n.changeLanguage(lng);
-    
+
     // Update URL to include/remove language prefix
     const currentPath = window.location.pathname;
     let newPath: string;
-    
+
     if (lng === "ja") {
       // Remove language prefix for Japanese (default)
       if (currentPath.startsWith("/en")) {
@@ -28,7 +28,7 @@ export function LanguageSwitcher() {
         newPath = `/${lng}${currentPath}`;
       }
     }
-    
+
     window.history.pushState({}, "", newPath);
   };
 

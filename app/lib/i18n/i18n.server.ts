@@ -1,5 +1,5 @@
-import { createRemixI18NextBackend } from "remix-i18next/server";
 import i18next from "i18next";
+import { createRemixI18NextBackend } from "remix-i18next/server";
 import { defaultNS, fallbackLng, supportedLngs } from ".";
 
 export const i18n = createRemixI18NextBackend({

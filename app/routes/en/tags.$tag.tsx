@@ -1,5 +1,5 @@
-import { getContentsByLanguage } from "../../lib/content";
 import { data } from "react-router";
+import { getContentsByLanguage } from "../../lib/content";
 import type { Route } from "../+types/tags.$tag";
 
 export function loader({ params }: Route.LoaderArgs) {
@@ -46,7 +46,9 @@ export default function EnglishTagDetail({ loaderData }: Route.ComponentProps) {
         <div className="hero-content text-center py-8">
           <div>
             <h1 className="text-5xl font-bold">#{tag}</h1>
-            <p className="text-xl mt-2">{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
+            <p className="text-xl mt-2">
+              {posts.length} post{posts.length !== 1 ? "s" : ""}
+            </p>
           </div>
         </div>
       </div>
@@ -56,7 +58,7 @@ export default function EnglishTagDetail({ loaderData }: Route.ComponentProps) {
           <article key={post._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/en/contents/${post._meta.path.split('/')[1]}`}
+                href={`/en/contents/${post._meta.path.split("/")[1]}`}
                 className="card-title link link-hover text-2xl"
               >
                 {post.title}

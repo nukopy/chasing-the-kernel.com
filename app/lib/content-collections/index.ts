@@ -42,9 +42,9 @@ const contents = defineCollection({
   schema: FrontmatterSchema,
   transform: async (document, context) => {
     // Extract language from file path (e.g. "ja/hello-world" -> "ja")
-    const pathParts = document._meta.path.split('/');
-    const language = pathParts.length > 1 ? pathParts[0] : 'ja'; // default to Japanese
-    
+    const pathParts = document._meta.path.split("/");
+    const language = pathParts.length > 1 ? pathParts[0] : "ja"; // default to Japanese
+
     if (document._meta.extension === "mdx") {
       const mdx = await compileMDX({ cache: context.cache }, document, {
         cwd: appDir,
