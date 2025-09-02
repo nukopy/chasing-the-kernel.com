@@ -1,17 +1,34 @@
 import {
+  data,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLocation,
+  type unstable_MiddlewareFunction,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
-import { I18nProvider } from "./components/I18nProvider";
+import { useTranslation } from "react-i18next";
 import { Header } from "./components/layout/Header";
 import { ThemeScript } from "./components/layout/ThemeScript";
+import { rootMiddlewares } from "./middlewares";
+import { getLocale, localeCookie } from "./middlewares/i18next";
+
+export const unstable_middleware: unstable_MiddlewareFunction[] = [
+  ...rootMiddlewares,
+];
+
+export async function loader({ context }: Route.LoaderArgs) {
+  const locale = getLocale(context);
+  console.info("[loader: Root] detected locale:", locale);
+
+  return data(
+    { locale },
+    { headers: { "Set-Cookie": await localeCookie.serialize(locale) } },
+  );
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -27,8 +44,10 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={i18n.language} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,20 +65,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const location = useLocation();
-
-  // Detect language from URL path
-  const language = location.pathname.startsWith("/en") ? "en" : "ja";
-
   return (
-    <I18nProvider language={language}>
+    <>
       <Header />
       <main className="min-h-screen bg-base-200">
         <div className="container mx-auto p-4">
           <Outlet />
         </div>
       </main>
-    </I18nProvider>
+    </>
   );
 }
 

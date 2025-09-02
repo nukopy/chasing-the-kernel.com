@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { supportedLngs } from "../lib/i18n";
+import { SUPPORTED_LANGUAGES } from "../lib/i18n";
 
 export function LanguageSwitcher() {
   const { t, i18n } = useTranslation();
 
   const handleLanguageChange = (lng: string) => {
-    i18n.changeLanguage(lng);
-
     // Update URL to include/remove language prefix
     const currentPath = window.location.pathname;
     let newPath: string;
@@ -28,8 +26,14 @@ export function LanguageSwitcher() {
         newPath = `/${lng}${currentPath}`;
       }
     }
+    console.info(
+      `[LanguageSwitcher] changing language to ${lng}, newPath: ${newPath}`,
+    );
 
     window.history.pushState({}, "", newPath);
+
+    // redirect to new path
+    window.location.href = newPath;
   };
 
   return (
@@ -57,7 +61,7 @@ export function LanguageSwitcher() {
         <li className="menu-title">
           <span>{t("language.select")}</span>
         </li>
-        {supportedLngs.map((lng) => (
+        {SUPPORTED_LANGUAGES.map((lng) => (
           <li key={lng}>
             <button
               type="button"

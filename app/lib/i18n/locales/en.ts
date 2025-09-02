@@ -1,0 +1,23 @@
+import type ja from "./ja";
+
+export default {
+  nav: {
+    home: "Home",
+    contents: "Contents",
+    tags: "Tags",
+  },
+  theme: {
+    title: "Switch theme",
+    select: "Select theme",
+    selected: "Selected",
+  },
+  language: {
+    title: "Switch language",
+    select: "Select language",
+    ja: "日本語",
+    en: "English",
+  },
+  site: {
+    title: "Chasing the Kernel",
+  },
+} satisfies typeof ja;
