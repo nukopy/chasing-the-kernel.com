@@ -3,7 +3,7 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import type { allContents } from "content-collections";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 import { getContentBySlugAndLanguage } from "../lib/content";
 
 type ClientOnlyProps = {
@@ -63,7 +63,7 @@ const Content = ({ content }: ContentProps) => {
       {/* 戻るリンク */}
       <div className="divider"></div>
       <div className="flex justify-between items-center">
-        <a href="/contents" className="btn btn-outline btn-primary">
+        <a href={getContentsUrl()} className="btn btn-outline btn-primary">
           ← 投稿一覧に戻る
         </a>
       </div>
@@ -73,22 +73,32 @@ const Content = ({ content }: ContentProps) => {
 
 export default function PostDetail() {
   const { slug } = useParams();
-  const content = getContentBySlugAndLanguage(slug ?? "", "ja");
+  const location = useLocation();
+  
+  // Detect language from current URL path
+  const language = location.pathname.startsWith("/en") ? "en" : "ja";
+  
+  const content = getContentBySlugAndLanguage(slug ?? "", language);
   if (!content) {
     return <div>Content not found</div>;
   }
+  
+  const getHomeUrl = () => language === "en" ? "/en" : "/";
+  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
+  const getTagUrl = (tag: string) => 
+    language === "en" ? `/en/tags/${encodeURIComponent(tag)}` : `/tags/${encodeURIComponent(tag)}`;
 
   return (
     <article className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
-            <a href="/" className="link link-hover">
+            <a href={getHomeUrl()} className="link link-hover">
               Home
             </a>
           </li>
           <li>
-            <a href="/contents" className="link link-hover">
+            <a href={getContentsUrl()} className="link link-hover">
               Contents
             </a>
           </li>
@@ -104,7 +114,7 @@ export default function PostDetail() {
           {content.tags.map((tag) => (
             <a
               key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
+              href={getTagUrl(tag)}
               className="badge badge-primary badge-lg"
             >
               #{tag}

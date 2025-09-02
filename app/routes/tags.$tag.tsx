@@ -2,11 +2,13 @@ import { data } from "react-router";
 import { getContentsByLanguage } from "../lib/content";
 import type { Route } from "./+types/tags.$tag";
 
-export function loader({ params }: Route.LoaderArgs) {
+export function loader({ params, request }: Route.LoaderArgs) {
   const { tag } = params;
   const decodedTag = decodeURIComponent(tag);
 
-  const contents = getContentsByLanguage("ja");
+  const url = new URL(request.url);
+  const language = url.pathname.startsWith("/en") ? "en" : "ja";
+  const contents = getContentsByLanguage(language);
   const postsWithTag = contents.filter((post) =>
     post.tags?.includes(decodedTag),
   );
@@ -18,23 +20,30 @@ export function loader({ params }: Route.LoaderArgs) {
   return {
     tag: decodedTag,
     posts: postsWithTag,
+    language,
   };
 }
 
 export default function TagDetail({ loaderData }: Route.ComponentProps) {
-  const { tag, posts } = loaderData;
+  const { tag, posts, language } = loaderData;
+  
+  const getHomeUrl = () => language === "en" ? "/en" : "/";
+  const getTagsUrl = () => language === "en" ? "/en/tags" : "/tags";
+  const getContentsUrl = () => language === "en" ? "/en/contents" : "/contents";
+  const getContentUrl = (slug: string) => 
+    language === "en" ? `/en/contents/${slug}` : `/contents/${slug}`;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
-            <a href="/" className="link link-hover">
+            <a href={getHomeUrl()} className="link link-hover">
               Home
             </a>
           </li>
           <li>
-            <a href="/tags" className="link link-hover">
+            <a href={getTagsUrl()} className="link link-hover">
               Tags
             </a>
           </li>
@@ -56,7 +65,7 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
           <article key={post._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/contents/${post._meta.path.split("/")[1]}`}
+                href={getContentUrl(post._meta.path.split("/").pop() || "")}
                 className="card-title link link-hover text-2xl"
               >
                 {post.title}
@@ -82,10 +91,10 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
       {/* ナビゲーションリンク */}
       <div className="divider"></div>
       <div className="flex gap-4 justify-center">
-        <a href="/tags" className="btn btn-outline btn-primary">
+        <a href={getTagsUrl()} className="btn btn-outline btn-primary">
           ← タグ一覧に戻る
         </a>
-        <a href="/contents" className="btn btn-outline btn-secondary">
+        <a href={getContentsUrl()} className="btn btn-outline btn-secondary">
           投稿一覧を見る
         </a>
       </div>

@@ -12,13 +12,23 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
-export function loader(_: Route.LoaderArgs) {
-  const contents = getContentsByLanguage("ja");
-  return { contents };
+export function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const language = url.pathname.startsWith("/en") ? "en" : "ja";
+  const contents = getContentsByLanguage(language);
+  return { contents, language };
 }
 
 export default function Contents({ loaderData }: Route.ComponentProps) {
-  const { contents } = loaderData;
+  const { contents, language } = loaderData;
+  
+  const getContentUrl = (slug: string) => {
+    return language === "en" ? `/en/contents/${slug}` : `/contents/${slug}`;
+  };
+  
+  const getTagUrl = (tag: string) => {
+    return language === "en" ? `/en/tags/${encodeURIComponent(tag)}` : `/tags/${encodeURIComponent(tag)}`;
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -28,7 +38,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
           <div key={content._meta.path} className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <a
-                href={`/contents/${content._meta.path.split("/")[1]}`}
+                href={getContentUrl(content._meta.path.split("/").pop() || "")}
                 className="card-title link link-hover text-2xl"
               >
                 {content.title}
@@ -38,7 +48,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
                 {content.tags?.map((tag) => (
                   <a
                     key={tag}
-                    href={`/tags/${encodeURIComponent(tag)}`}
+                    href={getTagUrl(tag)}
                     className="badge badge-outline badge-primary"
                     onClick={(e) => e.stopPropagation()}
                   >
