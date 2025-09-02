@@ -10,6 +10,7 @@ const FrontmatterSchema = z.object({
   title: z.string(),
   tags: z.array(z.string()).optional(),
   summary: z.string(),
+  language: z.string().optional(),
 });
 
 const getAppDir = () => {
@@ -40,6 +41,10 @@ const contents = defineCollection({
   typeName: "Content",
   schema: FrontmatterSchema,
   transform: async (document, context) => {
+    // Extract language from file path (e.g. "ja/hello-world" -> "ja")
+    const pathParts = document._meta.path.split("/");
+    const language = pathParts.length > 1 ? pathParts[0] : "ja"; // default to Japanese
+
     if (document._meta.extension === "mdx") {
       const mdx = await compileMDX({ cache: context.cache }, document, {
         cwd: appDir,
@@ -47,6 +52,7 @@ const contents = defineCollection({
 
       return {
         ...document,
+        language,
         mdx,
         html: "",
       };
@@ -55,6 +61,7 @@ const contents = defineCollection({
 
       return {
         ...document,
+        language,
         mdx: "",
         html,
       };

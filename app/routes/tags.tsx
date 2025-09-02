@@ -1,4 +1,4 @@
-import { allContents } from "content-collections";
+import { getContentsByLanguage } from "../lib/content";
 import type { Route } from "./+types/tags";
 
 export function meta(_: Route.MetaArgs) {
@@ -8,11 +8,13 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
-export function loader(_: Route.LoaderArgs) {
-  // 全ての投稿からタグを収集
+export function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const language = url.pathname.startsWith("/en") ? "en" : "ja";
+  const contents = getContentsByLanguage(language);
   const tagCounts = new Map<string, number>();
 
-  allContents.forEach((post) => {
+  contents.forEach((post) => {
     if (post.tags) {
       post.tags.forEach((tag) => {
         tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
@@ -25,14 +27,21 @@ export function loader(_: Route.LoaderArgs) {
     .sort(([, a], [, b]) => b - a)
     .map(([tag, count]) => ({ tag, count }));
 
-  return { tags: sortedTags };
+  return { tags: sortedTags, language };
 }
 
 export default function Tags({ loaderData }: Route.ComponentProps) {
-  const { tags } = loaderData;
+  const { tags, language } = loaderData;
+
+  const getTagUrl = (tag: string) =>
+    language === "en"
+      ? `/en/tags/${encodeURIComponent(tag)}`
+      : `/tags/${encodeURIComponent(tag)}`;
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <>
       {/* ヘッダー */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-base-content mb-2">Tags</h1>
@@ -51,7 +60,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
           {tags.map(({ tag, count }) => (
             <a
               key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
+              href={getTagUrl(tag)}
               className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border border-base-300"
             >
               <div className="card-body p-4">
@@ -76,7 +85,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
 
       {/* 戻るリンク */}
       <div className="flex justify-center">
-        <a href="/contents" className="btn btn-outline btn-wide gap-2">
+        <a href={getContentsUrl()} className="btn btn-outline btn-wide gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -95,6 +104,6 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
           投稿一覧に戻る
         </a>
       </div>
-    </div>
+    </>
   );
 }

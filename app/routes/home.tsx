@@ -1,3 +1,4 @@
+import { useLocation } from "react-router";
 import type { Route } from "./+types/home";
 
 export function meta(_: Route.MetaArgs) {
@@ -8,15 +9,22 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const location = useLocation();
+  const language = location.pathname.startsWith("/en") ? "en" : "ja";
+
+  const getContentsUrl = () =>
+    language === "en" ? "/en/contents" : "/contents";
+  const getTagsUrl = () => (language === "en" ? "/en/tags" : "/tags");
+
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <div className="flex gap-4 justify-center">
-            <a href="/contents" className="btn btn-primary">
+            <a href={getContentsUrl()} className="btn btn-primary">
               Contents
             </a>
-            <a href="/tags" className="btn btn-secondary">
+            <a href={getTagsUrl()} className="btn btn-secondary">
               Tags
             </a>
           </div>

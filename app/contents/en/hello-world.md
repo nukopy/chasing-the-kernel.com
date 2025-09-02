@@ -7,5 +7,5 @@ summary: "This is my first post!"
 # Hello world
 
 This is my first post!
-... rest of the content
+... rest of the content in English
 hoge

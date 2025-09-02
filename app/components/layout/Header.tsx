@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from "../LanguageSwitcher";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 
 export function Header() {
@@ -47,6 +48,7 @@ export function Header() {
       </div>
       <div className="navbar-end">
         <ThemeSwitcher />
+        <LanguageSwitcher />
       </div>
     </header>
   );
