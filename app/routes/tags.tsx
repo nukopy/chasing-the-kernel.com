@@ -41,7 +41,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
     language === "en" ? "/en/contents" : "/contents";
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <>
       {/* ヘッダー */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-base-content mb-2">Tags</h1>
@@ -104,6 +104,6 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
           投稿一覧に戻る
         </a>
       </div>
-    </div>
+    </>
   );
 }

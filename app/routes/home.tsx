@@ -17,7 +17,7 @@ export default function Home() {
   const getTagsUrl = () => (language === "en" ? "/en/tags" : "/tags");
 
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <div className="flex gap-4 justify-center">

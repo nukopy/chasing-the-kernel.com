@@ -33,7 +33,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
       <h1 className="text-4xl font-bold mb-8">Contents</h1>
       <div className="grid gap-6">
         {contents.map((content) => (
@@ -62,6 +62,6 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

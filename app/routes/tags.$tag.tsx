@@ -35,7 +35,7 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
     language === "en" ? `/en/contents/${slug}` : `/contents/${slug}`;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
@@ -99,6 +99,6 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
           投稿一覧を見る
         </a>
       </div>
-    </div>
+    </>
   );
 }

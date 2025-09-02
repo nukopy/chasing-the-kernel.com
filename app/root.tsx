@@ -55,7 +55,9 @@ export default function App() {
     <I18nProvider language={language}>
       <Header />
       <main className="min-h-screen bg-base-200">
-        <Outlet />
+        <div className="container mx-auto p-4">
+          <Outlet />
+        </div>
       </main>
     </I18nProvider>
   );

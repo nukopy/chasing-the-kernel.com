@@ -93,7 +93,7 @@ export default function PostDetail() {
       : `/tags/${encodeURIComponent(tag)}`;
 
   return (
-    <article className="container mx-auto px-4 py-8 max-w-4xl">
+    <article className="max-w-4xl">
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
