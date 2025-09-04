@@ -41,7 +41,8 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
       <h1 className="text-4xl font-bold mb-8">Contents</h1>
       <div className="grid gap-6">
         {contents.map((content) => (
-          <div
+          <button
+            type="button"
             key={content._meta.path}
             className="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow duration-300"
             onClick={() => {
@@ -72,7 +73,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
                 ))}
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </>

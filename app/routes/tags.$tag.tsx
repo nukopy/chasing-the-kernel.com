@@ -64,7 +64,8 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
 
       <div className="grid gap-6">
         {posts.map((post) => (
-          <article
+          <button
+            type="button"
             key={post._meta.path}
             className="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow duration-300"
             onClick={() => {
@@ -93,7 +94,7 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
                 ))}
               </div>
             </div>
-          </article>
+          </button>
         ))}
       </div>
 
