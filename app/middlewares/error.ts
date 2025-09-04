@@ -1,6 +1,9 @@
 import { requestIdContext } from "app/contexts/requestIdContext";
 import type { unstable_MiddlewareFunction as MiddlewareFunction } from "react-router";
 
+/**
+ * リクエスト中のエラーを補足してログに記録し、React Router へ再スローするミドルウェア
+ */
 export const errorMiddleware: MiddlewareFunction = async (
   { context },
   next,

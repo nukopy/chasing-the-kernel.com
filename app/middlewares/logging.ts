@@ -1,40 +1,41 @@
 import type { unstable_MiddlewareFunction as MiddlewareFunction } from "react-router";
 import { requestIdContext } from "../contexts/requestIdContext";
 
+const DURATION_UNIT = "ms";
+
+/**
+ * リクエストの処理結果をログに記録するミドルウェア
+ */
 export const loggingMiddleware: MiddlewareFunction = async (
   { request, context },
   next,
 ) => {
-  // get request id
+  // get request id from context
   const requestId = context.get(requestIdContext);
 
-  // TODO: ロガーライブラリ入れて JSON Lines 化 (UA とか IP アドレスとか諸々出力)
-  console.info({
-    requestId,
-    level: "INFO",
-    method: request.method,
-    url: request.url,
-    message: `Request ${request.method} ${request.url}`,
-    timestamp: new Date().toISOString(),
-    ua: request.headers.get("user-agent"),
-    ip: request.headers.get("x-forwarded-for"),
-    cf: request.headers.get("cf-ipcountry"),
-  });
-
+  // get response
   const start = performance.now();
   const response = (await next()) as Response;
   const duration = performance.now() - start;
 
+  // logging request
+  const path = new URL(request.url).pathname;
   console.info({
     requestId,
     level: "INFO",
     method: request.method,
-    url: request.url,
-    message: `Response with status code ${response.status}`,
-    timestamp: new Date().toISOString(),
+    url: request.url, // e.g. http://localhost:5173/contents
+    path,
+    headers: {
+      // ...request.headers,
+      host: request.headers.get("host"),
+      userAgent: request.headers.get("user-agent"),
+    },
+    message: `${response.status} ${request.method} ${path} (${duration}${DURATION_UNIT})`,
     status: response.status,
     duration: duration,
-    durationUnit: "ms",
+    durationUnit: DURATION_UNIT,
+    timestamp: new Date().toISOString(),
   });
 
   return response;
