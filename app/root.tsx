@@ -1,6 +1,7 @@
 import {
   data,
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -106,9 +107,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
               </pre>
             </div>
           )}
-          <a href="/" className="btn btn-primary">
+          <Link to="/" className="btn btn-primary">
             ホームに戻る
-          </a>
+          </Link>
         </div>
       </div>
     </main>

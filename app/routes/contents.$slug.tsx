@@ -3,7 +3,7 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import type { allContents } from "content-collections";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import { getContentBySlugAndLanguage } from "../lib/content";
 
 type ClientOnlyProps = {
@@ -64,9 +64,9 @@ const Content = ({ content, getContentsUrl }: ContentProps) => {
       {/* 戻るリンク */}
       <div className="divider"></div>
       <div className="flex justify-between items-center">
-        <a href={getContentsUrl()} className="btn btn-outline btn-primary">
+        <Link to={getContentsUrl()} className="btn btn-outline btn-primary">
           ← 投稿一覧に戻る
-        </a>
+        </Link>
       </div>
     </ClientOnly>
   );
@@ -97,14 +97,14 @@ export default function PostDetail() {
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
-            <a href={getHomeUrl()} className="link link-hover">
+            <Link to={getHomeUrl()} className="link link-hover">
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href={getContentsUrl()} className="link link-hover">
+            <Link to={getContentsUrl()} className="link link-hover">
               Contents
-            </a>
+            </Link>
           </li>
           <li>{content.title}</li>
         </ul>
@@ -116,13 +116,13 @@ export default function PostDetail() {
       {content.tags && content.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
           {content.tags.map((tag) => (
-            <a
+            <Link
               key={tag}
-              href={getTagUrl(tag)}
+              to={getTagUrl(tag)}
               className="badge badge-primary badge-lg"
             >
               #{tag}
-            </a>
+            </Link>
           ))}
         </div>
       )}

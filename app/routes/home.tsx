@@ -1,4 +1,4 @@
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import type { Route } from "./+types/home";
 
 export function meta(_: Route.MetaArgs) {
@@ -21,12 +21,12 @@ export default function Home() {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <div className="flex gap-4 justify-center">
-            <a href={getContentsUrl()} className="btn btn-primary">
+            <Link to={getContentsUrl()} className="btn btn-primary">
               Contents
-            </a>
-            <a href={getTagsUrl()} className="btn btn-secondary">
+            </Link>
+            <Link to={getTagsUrl()} className="btn btn-secondary">
               Tags
-            </a>
+            </Link>
           </div>
         </div>
       </div>

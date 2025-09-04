@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { getContentsByLanguage } from "../lib/content";
 import type { Route } from "./+types/tags";
 
@@ -58,9 +59,9 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
           {tags.map(({ tag, count }) => (
-            <a
+            <Link
               key={tag}
-              href={getTagUrl(tag)}
+              to={getTagUrl(tag)}
               className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border border-base-300"
             >
               <div className="card-body p-4">
@@ -78,14 +79,14 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}
 
       {/* 戻るリンク */}
       <div className="flex justify-center">
-        <a href={getContentsUrl()} className="btn btn-outline btn-wide gap-2">
+        <Link to={getContentsUrl()} className="btn btn-outline btn-wide gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -102,7 +103,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
             />
           </svg>
           投稿一覧に戻る
-        </a>
+        </Link>
       </div>
     </>
   );

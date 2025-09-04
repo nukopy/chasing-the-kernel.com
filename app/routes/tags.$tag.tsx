@@ -1,4 +1,4 @@
-import { data } from "react-router";
+import { data, Link, useNavigate } from "react-router";
 import { getContentsByLanguage } from "../lib/content";
 import type { Route } from "./+types/tags.$tag";
 
@@ -26,6 +26,7 @@ export function loader({ params, request }: Route.LoaderArgs) {
 
 export default function TagDetail({ loaderData }: Route.ComponentProps) {
   const { tag, posts, language } = loaderData;
+  const navigate = useNavigate();
 
   const getHomeUrl = () => (language === "en" ? "/en" : "/");
   const getTagsUrl = () => (language === "en" ? "/en/tags" : "/tags");
@@ -39,14 +40,14 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
       <div className="breadcrumbs text-sm mb-6">
         <ul>
           <li>
-            <a href={getHomeUrl()} className="link link-hover">
+            <Link to={getHomeUrl()} className="link link-hover">
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href={getTagsUrl()} className="link link-hover">
+            <Link to={getTagsUrl()} className="link link-hover">
               Tags
-            </a>
+            </Link>
           </li>
           <li>#{tag}</li>
         </ul>
@@ -63,14 +64,21 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
 
       <div className="grid gap-6">
         {posts.map((post) => (
-          <article key={post._meta.path} className="card bg-base-100 shadow-xl">
+          <article
+            key={post._meta.path}
+            className="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow duration-300"
+            onClick={() => {
+              navigate(getContentUrl(post._meta.path.split("/").pop() || ""));
+            }}
+          >
             <div className="card-body">
-              <a
-                href={getContentUrl(post._meta.path.split("/").pop() || "")}
+              <Link
+                to={getContentUrl(post._meta.path.split("/").pop() || "")}
                 className="card-title link link-hover text-2xl"
+                onClick={(e) => e.stopPropagation()}
               >
                 {post.title}
-              </a>
+              </Link>
               <p className="text-base-content/70">{post.summary}</p>
 
               {/* タグ表示 */}
@@ -92,12 +100,12 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
       {/* ナビゲーションリンク */}
       <div className="divider"></div>
       <div className="flex gap-4 justify-center">
-        <a href={getTagsUrl()} className="btn btn-outline btn-primary">
+        <Link to={getTagsUrl()} className="btn btn-outline btn-primary">
           ← タグ一覧に戻る
-        </a>
-        <a href={getContentsUrl()} className="btn btn-outline btn-secondary">
+        </Link>
+        <Link to={getContentsUrl()} className="btn btn-outline btn-secondary">
           投稿一覧を見る
-        </a>
+        </Link>
       </div>
     </>
   );

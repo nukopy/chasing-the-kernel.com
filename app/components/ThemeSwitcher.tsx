@@ -35,7 +35,11 @@ export function ThemeSwitcher() {
               className={`flex items-center gap-2 ${
                 currentTheme === theme.name ? "active" : ""
               }`}
-              onClick={() => handleThemeChange(theme.name)}
+              onClick={() => {
+                handleThemeChange(theme.name);
+                // ドロップダウンを閉じるためにフォーカスを外す
+                (document.activeElement as HTMLElement)?.blur();
+              }}
             >
               <span>{theme.label}</span>
               {currentTheme === theme.name && (

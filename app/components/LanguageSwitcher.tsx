@@ -68,7 +68,11 @@ export function LanguageSwitcher() {
               className={`flex items-center gap-2 ${
                 i18n.language === lng ? "active" : ""
               }`}
-              onClick={() => handleLanguageChange(lng)}
+              onClick={() => {
+                handleLanguageChange(lng);
+                // ドロップダウンを閉じるためにフォーカスを外す
+                (document.activeElement as HTMLElement)?.blur();
+              }}
             >
               <span>{t(`language.${lng}`)}</span>
               {i18n.language === lng && (
