@@ -60,7 +60,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
         <ThemeScript />
       </head>
-      <body>
+      <body className="bg-base-200">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -71,14 +71,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <>
+    <div className="h-[100dvh] bg-base-200">
       <Header />
-      <main className="min-h-screen bg-base-200">
+      <main>
         <div className="container mx-auto p-4">
           <Outlet />
         </div>
       </main>
-    </>
+    </div>
   );
 }
 
@@ -99,7 +99,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="hero min-h-screen bg-base-200">
+    <main className="hero bg-base-200">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold text-error">{message}</h1>
