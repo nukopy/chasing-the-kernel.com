@@ -1,5 +1,3 @@
-import NucopyIconPngImage from "./images/NukopyIcon.png";
-
 /**
  * Nukopy png icon
  */
@@ -8,7 +6,6 @@ export default function NukopyIconPng({
 }: {
   className?: string;
 }) {
-  return (
-    <img src={NucopyIconPngImage} alt="Nucopy Icon" className={className} />
-  );
+  const src = "/images/NukopyIcon.png";
+  return <img src={src} alt="Nucopy Icon" className={className} />;
 }

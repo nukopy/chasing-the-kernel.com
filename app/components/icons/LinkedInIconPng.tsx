@@ -1,5 +1,3 @@
-import LinkedInIconPngImage from "./images/LinkedIn/LinkedInIconBackgroundBlack.png";
-
 /**
  * LinkedIn png icon
  */
@@ -8,7 +6,6 @@ export default function LinkedInIconPng({
 }: {
   className?: string;
 }) {
-  return (
-    <img src={LinkedInIconPngImage} alt="LinkedIn Icon" className={className} />
-  );
+  const src = "/images/LinkedIn/LinkedInIconBackgroundBlack.png";
+  return <img src={src} alt="LinkedIn Icon" className={className} />;
 }
