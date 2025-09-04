@@ -23,16 +23,25 @@ export const loggingMiddleware: MiddlewareFunction = async (
   console.info({
     requestId,
     level: "INFO",
-    method: request.method,
-    url: request.url, // e.g. http://localhost:5173/contents
-    path,
-    headers: {
-      // ...request.headers,
-      host: request.headers.get("host"),
-      userAgent: request.headers.get("user-agent"),
-    },
     message: `${response.status} ${request.method} ${path} (${duration}${DURATION_UNIT})`,
-    status: response.status,
+    request: {
+      method: request.method,
+      url: request.url, // e.g. http://localhost:5173/contents
+      path,
+      headers: {
+        // ...request.headers,
+        host: request.headers.get("host"),
+        userAgent: request.headers.get("user-agent"),
+        cookie: request.headers.get("cookie"),
+      },
+    },
+    response: {
+      status: response.status,
+      headers: {
+        "Content-Type": response.headers.get("Content-Type"),
+        "Set-Cookie": response.headers.get("Set-Cookie"),
+      },
+    },
     duration: duration,
     durationUnit: DURATION_UNIT,
     timestamp: new Date().toISOString(),
