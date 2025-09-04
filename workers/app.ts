@@ -22,6 +22,8 @@ const requestHandler = createRequestHandler(
 
 export default {
   async fetch(request, env, ctx) {
+    console.info("[entrypoint] fetch");
+
     // initalize contexts
     const map = new Map<unstable_RouterContext, unknown>();
 
@@ -34,6 +36,8 @@ export default {
     // initialize context provider
     const provider = new unstable_RouterContextProvider(map);
 
+    // call React Router request handler
+    console.info("[entrypoint] call React Router request handler");
     return requestHandler(request, provider);
   },
 } satisfies ExportedHandler<Env>;

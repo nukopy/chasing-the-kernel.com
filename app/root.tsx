@@ -21,7 +21,11 @@ export const unstable_middleware: unstable_MiddlewareFunction[] = [
   ...rootMiddlewares,
 ];
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ context, request }: Route.LoaderArgs) {
+  const path = new URL(request.url).pathname;
+  console.info("[loader: Root] try", {
+    path,
+  });
   const locale = getLocale(context);
   console.info("[loader: Root] detected locale:", locale);
 
