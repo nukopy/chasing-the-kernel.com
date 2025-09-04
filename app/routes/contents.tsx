@@ -54,6 +54,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
             <div className="card-body">
               <Link
                 to={getContentUrl(content._meta.path.split("/").pop() || "")}
+                prefetch="intent"
                 className="card-title link link-hover text-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -65,6 +66,7 @@ export default function Contents({ loaderData }: Route.ComponentProps) {
                   <Link
                     key={tag}
                     to={getTagUrl(tag)}
+                    prefetch="intent"
                     className="badge badge-outline badge-primary hover:badge-primary z-10 relative"
                     onClick={(e) => e.stopPropagation()}
                   >

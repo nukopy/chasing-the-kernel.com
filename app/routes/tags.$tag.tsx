@@ -75,6 +75,7 @@ export default function TagDetail({ loaderData }: Route.ComponentProps) {
             <div className="card-body">
               <Link
                 to={getContentUrl(post._meta.path.split("/").pop() || "")}
+                prefetch="intent"
                 className="card-title link link-hover text-2xl"
                 onClick={(e) => e.stopPropagation()}
               >

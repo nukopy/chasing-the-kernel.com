@@ -62,6 +62,7 @@ export default function Tags({ loaderData }: Route.ComponentProps) {
             <Link
               key={tag}
               to={getTagUrl(tag)}
+              prefetch="intent"
               className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border border-base-300"
             >
               <div className="card-body p-4">
