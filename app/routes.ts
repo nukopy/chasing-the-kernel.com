@@ -32,11 +32,9 @@ function createBaseRoutes(language: keyof typeof LANGUAGE_ID_MAP) {
     }),
 
     // /misc
-    ...prefix("misc", [
-      route("test-props", `./routes/misc/test-props.tsx`, {
-        id: `misc-test-props-${language}`,
-      }),
-    ]),
+
+    // /about
+    route("about", `./routes/about.tsx`, { id: `about-${language}` }),
 
     // /not-found
     route("*", `./routes/not-found.tsx`, { id: `not-found-${language}` }),
