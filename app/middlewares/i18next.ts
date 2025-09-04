@@ -4,7 +4,7 @@ import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES } from "../lib/i18n";
 import en from "../lib/i18n/locales/en";
 import ja from "../lib/i18n/locales/ja";
 
-export const localeCookie = createCookie("lng", {
+export const localeCookie = createCookie("language", {
   path: "/",
   sameSite: "lax",
   secure: process.env.NODE_ENV === "production",
