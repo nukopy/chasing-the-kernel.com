@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404" description="ページが見つかりません">
+	<div class="container page error-page">
+		<h1>404</h1>
+		<p>ページが見つかりません。</p>
+		<nav aria-label="404ページのナビゲーション">
+			<a href="/">Home</a>
+			<a href="/wiki/">Wiki</a>
+		</nav>
+	</div>
+</BaseLayout>
+
+<style>
+	.error-page h1 {
+		margin: 0;
+	}
+
+	.error-page p {
+		margin-block: 0.75rem 1.5rem;
+	}
+
+	.error-page nav {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.error-page a {
+		font-weight: 700;
+	}
+</style>

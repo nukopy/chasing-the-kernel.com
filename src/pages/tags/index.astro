@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedSiteEntries, slugifyTag } from "../../lib/content";
+
+const entries = await getPublishedSiteEntries();
+const tagCounts = new Map<string, number>();
+
+for (const entry of entries) {
+	for (const tag of entry.tags) {
+		tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+	}
+}
+
+const sortedTags = Array.from(tagCounts.entries()).sort(
+	([tagA, countA], [tagB, countB]) => countB - countA || tagA.localeCompare(tagB, "ja"),
+);
+---
+
+<BaseLayout title="Tags" description="Blog と Wiki のタグ一覧">
+	<div class="container page">
+		<header class="page-header">
+			<h1>Tags</h1>
+		</header>
+
+		{
+			sortedTags.length > 0 ? (
+				<ul class="tag-list">
+					{sortedTags.map(([tag, count]) => (
+						<li>
+							<a href={`/tags/${encodeURIComponent(slugifyTag(tag))}/`}>
+								<span>#{tag}</span>
+								<small>({count})</small>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p>タグはありません。</p>
+			)
+		}
+	</div>
+</BaseLayout>
+
+<style>
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0;
+		padding: 0;
+		gap: 1rem;
+		list-style: none;
+	}
+
+	.tag-list a {
+		display: inline-flex;
+		align-items: baseline;
+		padding: 0.25rem 0.4rem;
+		color: var(--color-accent);
+		gap: 0.35rem;
+		text-decoration: none;
+		transition: background-color var(--transition-hover);
+	}
+
+	.tag-list a:hover {
+		background-color: var(--color-hover);
+	}
+
+	.tag-list a:hover span {
+		text-decoration: underline;
+		text-decoration-thickness: 0.08em;
+		text-underline-offset: 0.2em;
+	}
+
+	.tag-list small {
+		color: inherit;
+	}
+</style>

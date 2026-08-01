@@ -1,0 +1,87 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedWikiEntries, slugifyTag } from "../../lib/content";
+import { formatDate } from "../../lib/date";
+
+export async function getStaticPaths() {
+	const entries = await getPublishedWikiEntries();
+
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+interface Props {
+	entry: CollectionEntry<"wiki">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+	<article class="container page">
+		<header class="article-header">
+			<a class="back-link" href="/wiki/">← Wiki</a>
+			<h1>{entry.data.title}</h1>
+			<div class="metadata">
+				<time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
+				{
+					entry.data.tags.length > 0 && (
+						<ul aria-label="タグ">
+							{entry.data.tags.map((tag) => (
+								<li>
+									<a href={`/tags/${encodeURIComponent(slugifyTag(tag))}/`}>#{tag}</a>
+								</li>
+							))}
+						</ul>
+					)
+				}
+			</div>
+		</header>
+
+		<div class="prose">
+			<Content />
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.article-header {
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: 3rem;
+	}
+
+	.back-link {
+		display: inline-block;
+		margin-bottom: 1.5rem;
+	}
+
+	.article-header h1 {
+		margin-bottom: 1rem;
+	}
+
+	.metadata,
+	.metadata ul {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+	}
+
+	.metadata {
+		margin-top: 1.5rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.78rem;
+	}
+
+	.metadata ul {
+		margin: 0;
+		padding: 0;
+		color: var(--color-accent);
+		list-style: none;
+	}
+</style>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+---
+
+<BaseLayout title="About" description="Chasing the Kernel のプロフィール">
+	<div class="container page">
+		<header class="page-header">
+			<h1>About</h1>
+		</header>
+
+		<section>
+			<p>I'm a software engineer. I love Go and Rust.</p>
+		</section>
+
+		<div class="social-links">
+			<SocialLinks includeZenn large />
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.social-links {
+		margin-top: 2rem;
+	}
+</style>

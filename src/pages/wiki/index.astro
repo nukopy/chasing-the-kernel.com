@@ -1,0 +1,17 @@
+---
+import ContentList from "../../components/ContentList.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedWikiSiteEntries } from "../../lib/content";
+
+const entries = await getPublishedWikiSiteEntries();
+---
+
+<BaseLayout title="Wiki" description="分野別に整理した学習ノート">
+	<div class="container page">
+		<header class="page-header">
+			<h1>Wiki</h1>
+		</header>
+
+		<ContentList entries={entries} emptyMessage="Wiki は準備中です。" />
+	</div>
+</BaseLayout>

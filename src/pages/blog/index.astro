@@ -1,0 +1,17 @@
+---
+import ContentList from "../../components/ContentList.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedBlogSiteEntries } from "../../lib/content";
+
+const entries = await getPublishedBlogSiteEntries();
+---
+
+<BaseLayout title="Blog" description="技術記事と日々の記録">
+	<div class="container page">
+		<header class="page-header">
+			<h1>Blog</h1>
+		</header>
+
+		<ContentList entries={entries} emptyMessage="記事は準備中です。" />
+	</div>
+</BaseLayout>

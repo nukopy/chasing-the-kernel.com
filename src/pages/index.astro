@@ -1,0 +1,89 @@
+---
+import ContentList from "../components/ContentList.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPublishedSiteEntries } from "../lib/content";
+
+const latestEntries = (await getPublishedSiteEntries()).slice(0, 5);
+---
+
+<BaseLayout>
+	<div class="container page home-page">
+		<section>
+			<h1>Latest posts</h1>
+			<ContentList entries={latestEntries} showKind />
+			<div class="section-links">
+				<a class="section-link" href="/blog/">Go to Blog →</a>
+				<a class="section-link" href="/wiki/">Go to Wiki →</a>
+			</div>
+		</section>
+
+		<section class="site-map">
+			<h2>Explore</h2>
+			<div class="link-grid">
+				<a href="/about/"><span>About</span></a>
+				<a href="/works/"><span>Works</span></a>
+				<a href="/wiki/"><span>Wiki</span></a>
+				<a href="/blog/"><span>Blog</span></a>
+			</div>
+		</section>
+	</div>
+</BaseLayout>
+
+<style>
+	.home-page > section:first-child h1 {
+		margin-top: 0;
+	}
+
+	.home-page h2 {
+		font-size: var(--font-size-page-heading);
+	}
+
+	.site-map {
+		margin-top: 5rem;
+	}
+
+	.section-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+	}
+
+	.link-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		border-top: 1px solid var(--color-border);
+		border-left: 1px solid var(--color-border);
+	}
+
+	.link-grid a {
+		display: flex;
+		flex-direction: column;
+		padding: 1.25rem;
+		border-right: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+		color: var(--color-text);
+		text-decoration: none;
+		transition:
+			background-color var(--transition-hover),
+			color var(--transition-hover);
+	}
+
+	.link-grid a:hover {
+		background-color: var(--color-accent);
+		color: var(--color-background);
+	}
+
+	.link-grid span {
+		font-weight: 800;
+	}
+
+	.link-grid small {
+		margin-top: 0.25rem;
+	}
+
+	@media (max-width: 38rem) {
+		.link-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
