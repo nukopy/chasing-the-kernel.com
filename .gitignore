@@ -18,3 +18,6 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Coding agent
+.agents
