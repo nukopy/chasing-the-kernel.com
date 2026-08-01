@@ -32,6 +32,9 @@ export function LanguageSwitcher() {
 
     window.history.pushState({}, "", newPath);
 
+    // FIXME: cookie 更新されてる？
+    // FIXME: ここで更新後、次回 http://localhost:5173/ にアクセスしたとき、自動で /en にリダイレクトさせたい
+
     // redirect to new path
     window.location.href = newPath;
   };

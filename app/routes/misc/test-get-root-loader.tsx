@@ -1,4 +1,4 @@
-import { useMatches } from "react-router";
+import { type ShouldRevalidateFunctionArgs, useMatches } from "react-router";
 import type { Route } from "../../routes/misc/+types/test-get-root-loader";
 
 export async function loader() {
@@ -7,6 +7,12 @@ export async function loader() {
   return {
     message: "Hello, world!",
   };
+}
+
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  // デモ用: 親を常に再フェッチ
+  console.info("[TestGetRootLoader] shouldRevalidate always true", args);
+  return false;
 }
 
 export default function TestGetRootLoader({

@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, type ShouldRevalidateFunctionArgs } from "react-router";
 import type { Route } from "./+types/index";
 
 export function loader() {
@@ -18,6 +18,12 @@ export function loader() {
       },
     ],
   };
+}
+
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  // デモ用: 親を常に再フェッチ
+  console.info("[Misc] shouldRevalidate always true", args);
+  return false;
 }
 
 export default function Misc({ loaderData }: Route.ComponentProps) {

@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { getContentsByLanguage } from "../lib/content";
+import { getLocale } from "../middlewares/i18next";
 import type { Route } from "./+types/tags";
 
 export function meta(_: Route.MetaArgs) {
@@ -9,9 +10,8 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
-export function loader({ request }: Route.LoaderArgs) {
-  const url = new URL(request.url);
-  const language = url.pathname.startsWith("/en") ? "en" : "ja";
+export function loader({ context }: Route.LoaderArgs) {
+  const language = getLocale(context);
   const contents = getContentsByLanguage(language);
   const tagCounts = new Map<string, number>();
 
