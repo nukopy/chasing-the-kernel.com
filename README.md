@@ -5,6 +5,8 @@
 - mise 2026.7.18
 - Node.js 24.x
 - pnpm 10.x
+- (Optional) act 0.2.89
+- (Optional) op (1password-cli) 2.38.1
 
 ## Setup
 
@@ -38,13 +40,12 @@ Deploy the site to Cloudflare Workers.
 pnpm run deploy
 ```
 
-## Project structure
+## CI
 
-```txt
-src/
-├── components/    Shared UI components
-├── content/blog/  Blog posts written in Markdown
-├── layouts/       Shared layouts
-├── pages/         Astro routes
-└── styles/        Global styles
+Run workflows locally:
+
+- Run `.github/workflows/deploy.yml`
+
+```bash
+make act-deploy
 ```
