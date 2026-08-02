@@ -1,4 +1,5 @@
 ---
+import BackLink from "../../components/BackLink.astro";
 import ContentList from "../../components/ContentList.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
@@ -38,17 +39,10 @@ const { tag, entries } = Astro.props;
 <BaseLayout title={`#${tag}`} description={`${tag} タグの Blog と Wiki`}>
 	<div class="container page">
 		<header class="page-header">
-			<a class="back-link" href="/tags/">← Tags</a>
+			<BackLink href="/tags/" label="Tags" />
 			<h1>#{tag}</h1>
 		</header>
 
 		<ContentList entries={entries} showKind />
 	</div>
 </BaseLayout>
-
-<style>
-	.back-link {
-		display: inline-block;
-		margin-bottom: 1rem;
-	}
-</style>
