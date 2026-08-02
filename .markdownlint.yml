@@ -25,6 +25,9 @@ MD022: true
 MD024:
   siblings_only: true
 
+# MD025: Multiple top level headings in the same document
+MD025: false
+
 # MD026: Emphasis used instead of a heading
 MD026:
   punctuation: "。，、．"
