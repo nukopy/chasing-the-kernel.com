@@ -12,6 +12,7 @@ export default defineConfig({
     icon({
       include: {
         solar: ['calendar-linear'],
+        'akar-icons': ['arrow-back'],
       },
     }),
   ],
