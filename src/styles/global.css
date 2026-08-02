@@ -147,6 +147,12 @@ code {
 	height: auto;
 }
 
+.prose .katex-display {
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
 @media (max-width: 38rem) {
 	body {
 		line-height: 1.65;

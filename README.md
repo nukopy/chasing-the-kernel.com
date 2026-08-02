@@ -45,6 +45,22 @@ Deploy the site to Cloudflare Workers.
 pnpm run deploy
 ```
 
+## Test
+
+Install the Playwright Chromium browser once.
+
+```bash
+pnpm exec playwright install chromium
+```
+
+Capture full-page layout screenshots for desktop, tablet, mobile, and small mobile viewports.
+
+```bash
+pnpm run test:e2e:screenshot
+```
+
+Screenshots are written to `e2e/.playwright/test-results/screenshots/`.
+
 ## CI
 
 Run workflows locally:

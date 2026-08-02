@@ -1,5 +1,5 @@
 ---
-title: "テスト"
+title: "Markdown Test"
 description: "GFM (GitHub Flavored Markdown) の各種記法のレンダリングテスト。"
 date: 2026-08-01
 tags:
