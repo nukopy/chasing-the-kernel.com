@@ -2,6 +2,7 @@
 import { render, type CollectionEntry } from "astro:content";
 import ArticleHeader from "../../components/ArticleHeader.astro";
 import CodeBlockEnhancer from "../../components/CodeBlockEnhancer/index.astro";
+import MermaidDiagrams from "../../components/MermaidDiagrams/index.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPublishedWikiEntries } from "../../lib/content";
 
@@ -36,5 +37,6 @@ const { Content } = await render(entry);
 			<Content />
 		</div>
 	</article>
+	<MermaidDiagrams />
 	<CodeBlockEnhancer />
 </BaseLayout>
