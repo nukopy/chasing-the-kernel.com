@@ -1,0 +1,85 @@
+---
+import { Icon } from "astro-icon/components";
+import BackLink from "./BackLink.astro";
+import { slugifyTag } from "../lib/content";
+import { formatDate } from "../lib/date";
+
+interface Props {
+	title: string;
+	date: Date;
+	tags: string[];
+	backHref: string;
+	backLabel: string;
+}
+
+const { title, date, tags, backHref, backLabel } = Astro.props;
+---
+
+<header class="article-header">
+	<BackLink href={backHref} label={backLabel} />
+	<h1>{title}</h1>
+	<div class="metadata">
+		<time datetime={date.toISOString()}>
+			<Icon name="solar:calendar-linear" aria-hidden="true" />
+			{formatDate(date)}
+		</time>
+		{
+			tags.length > 0 && (
+				<ul aria-label="タグ">
+					{tags.map((tag) => (
+						<li>
+							<a href={`/tags/${encodeURIComponent(slugifyTag(tag))}/`}>#{tag}</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</header>
+
+<style>
+	.article-header {
+		padding-bottom: 1rem;
+		/* border-bottom: 1px solid var(--color-border); */
+	}
+
+	h1 {
+		margin-bottom: 0rem;
+	}
+
+	.metadata,
+	.metadata ul {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+	}
+
+	.metadata {
+		margin-top: 0.75rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.9rem;
+	}
+
+	time {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	time [data-icon] {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+		color: currentColor;
+		/* viewBox の余白分を補正してテキストと optical center を合わせる */
+		translate: 0 -0.09em;
+	}
+
+	.metadata ul {
+		margin: 0;
+		padding: 0;
+		color: var(--color-accent);
+		list-style: none;
+	}
+</style>
