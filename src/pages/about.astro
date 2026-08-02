@@ -9,17 +9,19 @@ import SocialLinks from "../components/SocialLinks.astro";
 			<h1>About</h1>
 		</header>
 
-		<section>
-			<p>I'm a software engineer. I love Go and Rust.</p>
-		</section>
 
-		<div class="social-links">
-			<SocialLinks includeZenn large />
-		</div>
+		<p>I'm a software engineer.<br/>I love Go and Rust.</p>
+		<SocialLinks includeZenn large />
+
 	</div>
 </BaseLayout>
 
 <style>
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 1rem;
+	}
+
 	.social-links {
 		margin-top: 2rem;
 	}
