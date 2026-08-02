@@ -12,6 +12,7 @@ const EXCLUDED_CODE_SELECTOR = [
 	"[data-math]",
 ].join(",");
 const EXCLUDED_CONTAINER_SELECTOR = [
+	'[data-language="mermaid"]',
 	".mermaid",
 	".math",
 	".math-inline",
