@@ -8,7 +8,9 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"audit": "pnpm audit --audit-level moderate",
+		"test:e2e:screenshot": "playwright test",
+		"clean-test-results": "rm -rf e2e/.playwright/test-results",
+		"audit": "pnpm audit --audit-level low",
 		"preview": "astro build && astro preview",
 		"astro": "astro",
 		"generate-types": "wrangler types",
@@ -30,6 +32,7 @@
 		"@iconify-json/griddy-icons": "^1.2.0",
 		"@iconify-json/material-symbols": "^1.2.0",
 		"@iconify-json/solar": "^1.2.5",
+		"@playwright/test": "^1.62.1",
 		"wrangler": "^4.118.0"
 	},
 	"pnpm": {
