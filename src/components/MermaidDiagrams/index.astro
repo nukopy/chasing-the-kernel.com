@@ -1,0 +1,29 @@
+<script>
+	import { renderMermaidDiagrams } from "./render-mermaid-diagrams";
+
+	document.addEventListener("astro:page-load", renderMermaidDiagrams);
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", renderMermaidDiagrams, { once: true });
+	} else {
+		renderMermaidDiagrams();
+	}
+</script>
+
+<style is:global>
+	.mermaid-diagram {
+		overflow-x: auto;
+		margin-block: 1.0rem;
+		padding: 0.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: 0.25rem;
+		background: var(--color-surface);
+	}
+
+	.mermaid-diagram svg {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		margin-inline: auto;
+	}
+</style>
