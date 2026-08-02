@@ -358,15 +358,54 @@ $\LaTeX$ の数式: $x^2 + y^2 = z^2$
 
 ```mermaid
 sequenceDiagram
-    Client->>+Server: Request:<br/>GET /blog/test
-    Server->>Server: Render markdown
-    Server-->>-Client: Response:<br/>HTML page
+    participant Client
+    participant Server
+    participant DB
+
+    Client->>+Server: Request:<br/>POST /products/:product_id
+    Server->>+DB: Read:<br/>SELECT * FROM products<br/>WHERE id=:product_id FOR UPDATE
+    DB-->>-Server: stock=10
+    Server->>+DB: Write:<br/>UPDATE products<br/>SET stock=9 WHERE id=:product_id
+    DB-->>-Server: OK
+    Server-->>-Client: Response:<br/>{ stock: 9 }
 ```
 
 ```mermaid
 flowchart LR
     Draft[下書き] --> Review[レビュー]
     Review --> Published[公開]
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft: Create
+    Draft --> Review: Submit
+    Review --> Draft: Reject
+    Review --> Published: Approve
+    Published --> [*]
+```
+
+先の `FOR UPDATE` 例を題材にした、在庫管理の簡単なテーブル設計です。
+
+```mermaid
+erDiagram
+    products ||--o{ stock_movements : tracks
+
+    products {
+        bigint id PK
+        varchar name
+        int stock
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    stock_movements {
+        bigint id PK
+        bigint product_id FK
+        int delta
+        varchar reason
+        timestamp created_at
+    }
 ```
 
 ## 絵文字 (Emoji shortcodes)
