@@ -37,9 +37,9 @@ status: published
 
 ## 強調 (Emphasis)
 
-- *イタリック* / _イタリック_
-- **太字** / __太字__
-- ***太字イタリック***
+- _イタリック_ / _イタリック_
+- **太字** / **太字**
+- **_太字イタリック_**
 - ~~打ち消し線~~ (GFM strikethrough)
 - `インラインコード`
 - **太字の中に `コード` を含む**
@@ -125,16 +125,16 @@ status: published
 
 ## テーブル (GFM tables)
 
-| 左寄せ | 中央寄せ | 右寄せ |
-| :--- | :---: | ---: |
-| セル | セル | 100 |
-| 長めのテキストが入ったセル | `code` | 2,500 |
-| **太字** | *イタリック* | ~~打ち消し~~ |
+| 左寄せ                     |   中央寄せ   |       右寄せ |
+| :------------------------- | :----------: | -----------: |
+| セル                       |     セル     |          100 |
+| 長めのテキストが入ったセル |    `code`    |        2,500 |
+| **太字**                   | _イタリック_ | ~~打ち消し~~ |
 
-| 記法 | 対応 |
-| --- | --- |
-| パイプのエスケープ \| こんな感じ | OK |
-| 空セル |  |
+| 記法                             | 対応 |
+| -------------------------------- | ---- |
+| パイプのエスケープ \| こんな感じ | OK   |
+| 空セル                           |      |
 
 ## コード (Code)
 
@@ -147,7 +147,7 @@ status: published
 ```js
 // JavaScript
 function greet(name) {
-	console.log(`Hello, ${name}!`);
+  console.log(`Hello, ${name}!`);
 }
 greet("world");
 ```
@@ -169,10 +169,15 @@ fn main() {
 }
 ```
 
+```cpp
+// C++
+#define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954
+```
+
 ```css
 /* CSS */
 .page {
-	padding: 2.5rem 0 clamp(3rem, 8vw, 6rem);
+  padding: 2.5rem 0 clamp(3rem, 8vw, 6rem);
 }
 ```
 
@@ -185,8 +190,83 @@ fn main() {
 ```
 
 ```sh
-# シェル
 echo "hello" | tr 'a-z' 'A-Z'
+```
+
+```bash
+#! /bin/bash
+
+for f in *.md; do
+  echo "processing $f"
+done
+```
+
+```go
+// ----- main.go -----
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println(Add(1, 2))
+}
+
+// ----- add.go -----
+package integer
+
+// Add adds two integers and returns the result.
+func Add(a, b int) int {
+	return a + b
+}
+
+// ----- add_test.go -----
+package integer_test
+
+import "testing"
+
+func TestAdd(t *testing.T) {
+	type testCase struct {
+		name string
+		a, b int
+		want int
+	}
+
+	testCases := []testCase{
+		{name: "negative + negative", a: -1, b: -2, want: -3},
+		{name: "negative + zero", a: 0, b: -1, want: -1},
+		{name: "negative + positive = negative", a: -1, b: 2, want: 1},
+		{name: "zero + zero", a: 0, b: 0, want: 0},
+		{name: "zero + positive = positive", a: 0, b: 1, want: 1},
+		{name: "positive + negative = negative", a: 1, b: -2, want: -1},
+		{name: "positive + positive = positive", a: 2, b: 1, want: 3},
+		{name: "positive + zero = positive", a: 1, b: 0, want: 1},
+		{name: "positive + positive", a: 1, b: 2, want: 3},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			if got := Add(tc.a, tc.b); got != tc.want {
+				t.Errorf("Add(%d, %d) = %d; want %d", tc.a, tc.b, got, tc.want)
+			}
+		})
+	}
+}
+```
+
+```yml
+# YAML
+name: chasing-the-kernel
+on:
+  push:
+    branches: [main]
+```
+
+```toml
+# TOML
+[package]
+name = "chasing-the-kernel"
+version = "0.1.0"
 ```
 
 ```diff
@@ -196,7 +276,17 @@ echo "hello" | tr 'a-z' 'A-Z'
 ```
 
 ```txt
+プレーンテキスト。
+```
+
+```hogehoge
+存在しない言語 hogehoge を指定。
+指定しているが表示されない。
+```
+
+```
 言語指定なしのプレーンテキスト。
+存在しない言語を指定しているときと同じように言語ラベルは表示されない。
 ```
 
 ### コードブロック内のコードフェンス
@@ -211,15 +301,16 @@ console.log("フェンスの中にフェンス");
 
 ---
 
-***
+---
 
-___
+---
 
 ## 脚注 (Footnotes)
 
 これは脚注付きの文章です[^1]。複数の脚注も使えます[^note]。
 
 [^1]: これが脚注の内容です。
+
 [^note]: 名前付きの脚注。**装飾**や[リンク](https://example.com)も書けます。
 
 ## エスケープ (Escaping)
@@ -241,6 +332,8 @@ ___
 <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> のようなキーボード表記。
 
 上付き: X<sup>2</sup> / 下付き: H<sub>2</sub>O
+
+$\LaTeX$ の数式: $x^2 + y^2 = z^2$
 
 <mark>ハイライトされたテキスト</mark>
 

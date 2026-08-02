@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import ArticleHeader from "../../components/ArticleHeader.astro";
+import CodeBlockEnhancer from "../../components/CodeBlockEnhancer/index.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPublishedBlogPosts } from "../../lib/content";
 
@@ -35,4 +36,5 @@ const { Content } = await render(post);
 			<Content />
 		</div>
 	</article>
+	<CodeBlockEnhancer />
 </BaseLayout>
