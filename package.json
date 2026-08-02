@@ -21,6 +21,8 @@
 	},
 	"devDependencies": {
 		"@iconify-json/akar-icons": "^1.2.7",
+		"@iconify-json/griddy-icons": "^1.2.0",
+		"@iconify-json/material-symbols": "^1.2.0",
 		"@iconify-json/solar": "^1.2.5",
 		"wrangler": "^4.118.0"
 	},

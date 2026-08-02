@@ -13,6 +13,8 @@ export default defineConfig({
       include: {
         solar: ['calendar-linear'],
         'akar-icons': ['arrow-back'],
+        'griddy-icons': ['copy'],
+        'material-symbols': ['check-rounded'],
       },
     }),
   ],
