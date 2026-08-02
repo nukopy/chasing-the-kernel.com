@@ -1,15 +1,21 @@
-import mermaid from "mermaid";
-
 const SOURCE_SELECTOR = [
 	'.prose pre[data-language="mermaid"] > code',
 	".prose pre > code.language-mermaid",
 ].join(",");
 
+type Mermaid = (typeof import("mermaid"))["default"];
+
 let initialized = false;
 let nextDiagramId = 0;
 let renderQueue = Promise.resolve();
+let mermaidPromise: Promise<Mermaid> | undefined;
 
-function initializeMermaid() {
+function loadMermaid() {
+	mermaidPromise ??= import("mermaid").then(({ default: mermaid }) => mermaid);
+	return mermaidPromise;
+}
+
+function initializeMermaid(mermaid: Mermaid) {
 	if (initialized) return;
 
 	mermaid.initialize({
@@ -26,7 +32,8 @@ async function renderDiagram(code: HTMLElement) {
 	if (!pre || pre.dataset.mermaidStatus !== "pending") return;
 
 	try {
-		initializeMermaid();
+		const mermaid = await loadMermaid();
+		initializeMermaid(mermaid);
 		const id = `mermaid-diagram-${nextDiagramId++}`;
 		const { svg, bindFunctions } = await mermaid.render(id, code.textContent ?? "");
 		const diagram = document.createElement("div");
