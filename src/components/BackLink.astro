@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface Props {
 	href: string;
 	label: string;
@@ -7,10 +9,33 @@ interface Props {
 const { href, label } = Astro.props;
 ---
 
-<a class="back-link" href={href}>← {label}</a>
+<a class="back-link" href={href}>
+	<Icon name="akar-icons:arrow-back" aria-hidden="true" />
+	{label}
+</a>
 
 <style>
 	.back-link {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: rgb(from var(--color-accent) r g b / 0.75);
+		font-size: 0.9rem;
+		text-decoration: none;
+		transition: color var(--transition-hover);
+	}
+
+	.back-link:hover {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.back-link [data-icon] {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+		color: currentColor;
+		/* viewBox の余白分を補正してテキストと optical center を合わせる */
+		translate: 0 -0.1em;
 	}
 </style>
