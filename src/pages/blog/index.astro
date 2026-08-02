@@ -8,9 +8,7 @@ const entries = await getPublishedBlogSiteEntries();
 
 <BaseLayout title="Blog" description="技術記事と日々の記録">
 	<div class="container page">
-		<header class="page-header">
-			<h1>Blog</h1>
-		</header>
+		<h1>Blog</h1>
 
 		<ContentList entries={entries} emptyMessage="記事は準備中です。" />
 	</div>

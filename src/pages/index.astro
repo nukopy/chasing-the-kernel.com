@@ -7,7 +7,7 @@ const latestEntries = (await getPublishedSiteEntries()).slice(0, 5);
 ---
 
 <BaseLayout>
-	<div class="container page home-page">
+	<div class="container page">
 		<section>
 			<h1>Latest posts</h1>
 			<ContentList entries={latestEntries} showKind />
@@ -18,7 +18,7 @@ const latestEntries = (await getPublishedSiteEntries()).slice(0, 5);
 		</section>
 
 		<section class="site-map">
-			<h2>Explore</h2>
+			<h1>Explore</h1>
 			<div class="link-grid">
 				<a href="/about/"><span>About</span></a>
 				<a href="/works/"><span>Works</span></a>
@@ -30,16 +30,16 @@ const latestEntries = (await getPublishedSiteEntries()).slice(0, 5);
 </BaseLayout>
 
 <style>
-	.home-page > section:first-child h1 {
+	/* /* .home-page > section:first-child h1 {
 		margin-top: 0;
-	}
+	} */
 
-	.home-page h2 {
+	/* .home-page h2 {
 		font-size: var(--font-size-page-heading);
-	}
+	} */
 
 	.site-map {
-		margin-top: 5rem;
+		margin-top: 2rem;
 	}
 
 	.section-links {

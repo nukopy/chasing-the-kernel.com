@@ -8,10 +8,8 @@ const entries = await getPublishedWikiSiteEntries();
 
 <BaseLayout title="Wiki" description="分野別に整理した学習ノート">
 	<div class="container page">
-		<header class="page-header">
-			<h1>Wiki</h1>
-			<p>開発メモ</p>
-		</header>
+		<h1>Wiki</h1>
+		<p>開発メモ</p>
 
 		<ContentList entries={entries} emptyMessage="Wiki は準備中です。" />
 	</div>
