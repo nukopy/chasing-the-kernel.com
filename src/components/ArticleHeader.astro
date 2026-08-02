@@ -43,7 +43,6 @@ const { title, date, tags, backHref, backLabel } = Astro.props;
 		margin-bottom: 0rem;
 	}
 
-	.metadata,
 	.metadata ul {
 		display: flex;
 		align-items: center;
@@ -52,6 +51,10 @@ const { title, date, tags, backHref, backLabel } = Astro.props;
 	}
 
 	.metadata {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 0.5rem;
 		margin-top: 0.75rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 		font-size: 0.9rem;
