@@ -1,0 +1,32 @@
+---
+import { Icon } from "astro-icon/components";
+import { formatDate } from "../lib/date";
+
+interface Props {
+	date: Date;
+}
+
+const { date } = Astro.props;
+---
+
+<time class="formatted-date-with-icon" datetime={date.toISOString()}>
+	<Icon name="solar:calendar-linear" aria-hidden="true" />
+	{formatDate(date)}
+</time>
+
+<style>
+	.formatted-date-with-icon {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	.formatted-date-with-icon [data-icon] {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+		color: currentColor;
+		/* viewBox の余白分を補正してテキストと optical center を合わせる */
+		translate: 0 -0.09em;
+	}
+</style>

@@ -1,8 +1,7 @@
 ---
-import { Icon } from "astro-icon/components";
 import BackLink from "./BackLink.astro";
+import FormattedDateWithIcon from "./FormattedDateWithIcon.astro";
 import { slugifyTag } from "../lib/content";
-import { formatDate } from "../lib/date";
 
 interface Props {
 	title: string;
@@ -19,10 +18,7 @@ const { title, date, tags, backHref, backLabel } = Astro.props;
 	<BackLink href={backHref} label={backLabel} />
 	<h1>{title}</h1>
 	<div class="metadata">
-		<time datetime={date.toISOString()}>
-			<Icon name="solar:calendar-linear" aria-hidden="true" />
-			{formatDate(date)}
-		</time>
+		<FormattedDateWithIcon date={date} />
 		{
 			tags.length > 0 && (
 				<ul aria-label="タグ">
@@ -59,21 +55,6 @@ const { title, date, tags, backHref, backLabel } = Astro.props;
 		margin-top: 0.75rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 		font-size: 0.9rem;
-	}
-
-	time {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-	}
-
-	time [data-icon] {
-		width: 1rem;
-		height: 1rem;
-		flex-shrink: 0;
-		color: currentColor;
-		/* viewBox の余白分を補正してテキストと optical center を合わせる */
-		translate: 0 -0.09em;
 	}
 
 	.metadata ul {
