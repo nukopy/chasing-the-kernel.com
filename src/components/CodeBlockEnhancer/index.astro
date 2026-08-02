@@ -1,0 +1,185 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<template data-code-block-template>
+	<span class="code-block-lang" hidden></span>
+	<div class="code-block-frame">
+		<div class="code-block-copy">
+			<span class="code-block-copy__feedback" role="status" aria-live="polite"></span>
+			<button
+				type="button"
+				class="code-block-copy__button"
+				aria-label="コードをクリップボードにコピー"
+			>
+				<span class="code-block-copy__icon code-block-copy__icon--copy" aria-hidden="true">
+					<Icon name="griddy-icons:copy" />
+				</span>
+				<span class="code-block-copy__icon code-block-copy__icon--check" aria-hidden="true">
+					<Icon name="material-symbols:check-rounded" />
+				</span>
+			</button>
+		</div>
+	</div>
+</template>
+
+<script>
+	import { enhanceCodeBlocks } from "./enhance-code-blocks";
+
+	enhanceCodeBlocks();
+</script>
+
+<style is:global>
+	/* only for code blocks in prose */
+	.code-block--enhanced {
+		--code-block-copy-size: 1.85rem;
+		--code-block-copy-inset: 0.45rem;
+		--code-block-surface: #24292e;
+		--code-block-divider: #3d444d;
+		margin-block: 1em;
+	}
+
+	.code-block-lang {
+		display: inline-block;
+		max-width: 100%;
+		padding: 0.35rem 0.85rem;
+		border-radius: 0.35rem 0.35rem 0 0;
+		color: #c9d1d9;
+		background: var(--code-block-surface);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.75rem;
+		line-height: 1.4;
+		letter-spacing: 0.02em;
+		user-select: none;
+	}
+
+	.code-block-frame {
+		position: relative;
+	}
+
+	.prose .code-block--enhanced pre {
+		margin: 0;
+		font-size: 0.875rem;
+		line-height: 1.125rem;
+		background-color: var(--code-block-surface);
+		/* keep room for the absolute copy control, including 1-line blocks */
+		min-height: calc(var(--code-block-copy-size) + var(--code-block-copy-inset) * 2);
+		padding: 0.5rem calc(var(--code-block-copy-size) + var(--code-block-copy-inset) + 0.5rem) 0.5rem 0;
+	}
+
+	.code-block--enhanced:has(.code-block-lang) .code-block-frame {
+		border-top: 1px solid var(--code-block-divider);
+	}
+
+	.code-block--enhanced:has(.code-block-lang) pre {
+		border-top-left-radius: 0;
+	}
+
+	.code-block--enhanced code {
+		display: block;
+		counter-reset: code-line;
+	}
+
+	.code-block--enhanced code > .line {
+		display: inline-block;
+		min-width: 100%;
+		counter-increment: code-line;
+	}
+
+	.code-block--enhanced code > .line::before {
+		content: counter(code-line);
+		display: inline-block;
+		width: 1.5rem;
+		padding-right: 0.75rem;
+		color: #676a6a;
+		text-align: right;
+		user-select: none;
+	}
+
+	.code-block-copy {
+		position: absolute;
+		top: var(--code-block-copy-inset);
+		right: var(--code-block-copy-inset);
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.code-block-copy__feedback {
+		padding: 0.2rem 0.55rem;
+		border-radius: 0.25rem;
+		color: #222;
+		background: #d8d8d8;
+		font-size: 0.875rem;
+		line-height: 1.5;
+		opacity: 0;
+		transform: translateX(0.25rem);
+		transition: opacity 180ms ease, transform 180ms ease;
+		pointer-events: none;
+	}
+
+	.code-block-copy[data-copied="true"] .code-block-copy__feedback {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.code-block-copy__button {
+		position: relative;
+		display: grid;
+		width: var(--code-block-copy-size);
+		height: var(--code-block-copy-size);
+		padding: 0;
+		place-items: center;
+		border: 2px solid #676767;
+		border-radius: 0.5rem;
+		color: #bdbdbd;
+		background: #292929;
+		cursor: pointer;
+		transition: border-color var(--transition-hover), color var(--transition-hover), background-color var(--transition-hover);
+	}
+
+	.code-block-copy__button:hover {
+		border-color: #9b9b9b;
+		color: #fff;
+		background: #363636;
+	}
+
+	.code-block-copy__button:focus-visible {
+		outline: 3px solid #78a9ff;
+		outline-offset: 2px;
+	}
+
+	.code-block-copy__icon {
+		position: absolute;
+		display: grid;
+		place-items: center;
+		transition: opacity 180ms ease, transform 180ms ease;
+	}
+
+	.code-block-copy__icon svg {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.code-block-copy__icon--check {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+
+	.code-block-copy[data-copied="true"] .code-block-copy__icon--copy {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+
+	.code-block-copy[data-copied="true"] .code-block-copy__icon--check {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.code-block-copy__feedback,
+		.code-block-copy__icon {
+			transition: none;
+		}
+	}
+</style>
