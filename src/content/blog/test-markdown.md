@@ -242,6 +242,8 @@ ___
 
 上付き: X<sup>2</sup> / 下付き: H<sub>2</sub>O
 
+$\LaTeX$ の数式: $x^2 + y^2 = z^2$
+
 <mark>ハイライトされたテキスト</mark>
 
 ## GitHub アラート (GFM alerts)
