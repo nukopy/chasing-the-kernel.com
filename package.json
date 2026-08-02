@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.1.7",
 		"astro": "^7.1.6",
-		"astro-icon": "^1.1.5"
+		"astro-icon": "^1.1.5",
+		"mermaid": "^11.16.0"
 	},
 	"devDependencies": {
 		"@iconify-json/akar-icons": "^1.2.7",
