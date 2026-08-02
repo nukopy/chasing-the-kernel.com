@@ -4,6 +4,8 @@ description: "Markdown で管理する Wiki ページの表示テストです。
 date: 2026-08-01
 tags:
   - astro
+  - wiki
+  - rust
 status: published
 ---
 
