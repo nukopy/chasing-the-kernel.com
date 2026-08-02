@@ -160,11 +160,11 @@ code {
 }
 
 ::view-transition-old(root) {
-	animation: 150ms ease-out both page-fade-out;
+	animation: 125ms ease-out both page-fade-out;
 }
 
 ::view-transition-new(root) {
-	animation: 150ms 150ms ease-in both page-fade-in;
+	animation: 125ms 125ms ease-in both page-fade-in;
 }
 
 @keyframes page-fade-out {
