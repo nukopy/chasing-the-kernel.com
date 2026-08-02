@@ -152,3 +152,36 @@ code {
 		line-height: 1.65;
 	}
 }
+
+/* view transition */
+
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root) {
+	animation: 150ms ease-out both page-fade-out;
+}
+
+::view-transition-new(root) {
+	animation: 150ms 150ms ease-in both page-fade-in;
+}
+
+@keyframes page-fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes page-fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
+}
